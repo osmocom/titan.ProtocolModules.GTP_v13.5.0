@@ -904,11 +904,11 @@ SON_TransferApplicationIdentity   sON_TransferApplicationIdentity optional
                                              length2,         ext = '0'B;)";
         variant (ext,lengthIndicator) "FIELDORDER(msb)";
         variant "TAG (rIM_Protocol_Version_Number,   iEI = '55'O)";
-        variant (application_Container) "PRESENCE (rIM_Application_Identity.rIMApplicationIdentity = '01'O;)";
-        variant (application_Container) "PRESENCE (rIM_Application_Identity.rIMApplicationIdentity = '02'O;)";
-        variant (application_Container) "PRESENCE (rIM_Application_Identity.rIMApplicationIdentity = '03'O;)";
-        variant (application_Container) "PRESENCE (rIM_Application_Identity.rIMApplicationIdentity = '04'O;)";
-        variant (application_Container) "PRESENCE (rIM_Application_Identity.rIMApplicationIdentity = '05'O;)";
+        variant (application_Container) "PRESENCE (rIM_Application_Identity.rIMApplicationIdentity = '01'O,
+                                                   rIM_Application_Identity.rIMApplicationIdentity = '02'O,
+                                                   rIM_Application_Identity.rIMApplicationIdentity = '03'O,
+                                                   rIM_Application_Identity.rIMApplicationIdentity = '04'O,
+                                                   rIM_Application_Identity.rIMApplicationIdentity = '05'O)";
         variant (application_Container)
 	 "CROSSTAG
 	     (nacc,rIM_Application_Identity.rIMApplicationIdentity = '01'O;
@@ -944,11 +944,11 @@ SON_TransferApplicationIdentity   sON_TransferApplicationIdentity optional
       variant (ext,lengthIndicator) "FIELDORDER(msb)";
       variant
        "TAG (rIM_Protocol_Version_Number,   iEI = '55'O;)";
-      variant (applContainer_or_ApplErrContainer) "PRESENCE(rIM_Application_Identity.rIMApplicationIdentity = '01'O;)";
-      variant (applContainer_or_ApplErrContainer) "PRESENCE(rIM_Application_Identity.rIMApplicationIdentity = '02'O;)";
-      variant (applContainer_or_ApplErrContainer) "PRESENCE(rIM_Application_Identity.rIMApplicationIdentity = '03'O;)";
-      variant (applContainer_or_ApplErrContainer) "PRESENCE(rIM_Application_Identity.rIMApplicationIdentity = '04'O;)";
-      variant (applContainer_or_ApplErrContainer) "PRESENCE(rIM_Application_Identity.rIMApplicationIdentity = '05'O;)";
+      variant (applContainer_or_ApplErrContainer) "PRESENCE (rIM_Application_Identity.rIMApplicationIdentity = '01'O,
+                                                             rIM_Application_Identity.rIMApplicationIdentity = '02'O,
+                                                             rIM_Application_Identity.rIMApplicationIdentity = '03'O,
+                                                             rIM_Application_Identity.rIMApplicationIdentity = '04'O,
+                                                             rIM_Application_Identity.rIMApplicationIdentity = '05'O)";
       variant (applContainer_or_ApplErrContainer)
        "CROSSTAG(nacc,rIM_Application_Identity.rIMApplicationIdentity = '01'O;
                  si3,rIM_Application_Identity.rIMApplicationIdentity = '02'O;
