@@ -842,29 +842,6 @@ type record  PDU_in_Error_GTPC
         variant (ext,lengthIndicator) "FIELDORDER(msb)";
        };
 
-type record Cell_Identifier_GTPC
-{
- OCT1                   iEI,
- BIT1                   ext,
- LIN2_2a_GTPC           lengthIndicator,
- HEX1                   mccDigit1 ,
- HEX1                   mccDigit2 ,
- HEX1                   mccDigit3 ,
- HEX1                   mncDigit3 ,
- HEX1                   mncDigit1 ,
- HEX1                   mncDigit2 ,
- OCT2                   lac,
- OCT1                   rac,
- OCT2                   cI_value
-} with {
-      variant (lengthIndicator)
-     "LENGTHTO(mccDigit1,mccDigit2,mccDigit3,mncDigit3,mncDigit1,
-               mncDigit2,lac,rac,cI_value)";
-      variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
-                                           length2,         ext = '0'B;)";
-      variant (ext,lengthIndicator) "FIELDORDER(msb)";
-};
-
 type record Cause_BSSGP_GTPC
  {
  OCT1                   iEI,
@@ -1151,7 +1128,7 @@ type record RAN_Information_Request_Application_Container_NACC_GTPC
  OCT1                        iEI,
  BIT1                        ext,
  LIN2_2a_GTPC                lengthIndicator,
- Cell_Identifier_GTPC        reporting_Cell_Identifier
+ Cell_Identifier_V_GTPC      reporting_Cell_Identifier
 } with {
          variant (lengthIndicator) "LENGTHTO (reporting_Cell_Identifier)";
          variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
@@ -1165,7 +1142,7 @@ type record RAN_Information_Request_Application_Container_SI3_GTPC
  OCT1                        iEI,
  BIT1                        ext,
  LIN2_2a_GTPC                lengthIndicator,
- Cell_Identifier_GTPC        reporting_Cell_Identifier
+ Cell_Identifier_V_GTPC      reporting_Cell_Identifier
 } with {
          variant (lengthIndicator) "LENGTHTO (reporting_Cell_Identifier)";
          variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
@@ -1179,7 +1156,7 @@ type record RAN_Information_Request_Application_Container_MBMS_GTPC
  OCT1                        iEI,
  BIT1                        ext,
  LIN2_2a_GTPC                lengthIndicator,
- Cell_Identifier_GTPC        reporting_Cell_Identifier
+ Cell_Identifier_V_GTPC      reporting_Cell_Identifier
 } with {
          variant (lengthIndicator) "LENGTHTO (reporting_Cell_Identifier)";
          variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
@@ -1193,7 +1170,7 @@ type record RAN_Information_Request_Application_Container_SON_GTPC
  OCT1                        iEI,
  BIT1                        ext,
  LIN2_2a_GTPC                lengthIndicator,
- Cell_Identifier_GTPC        reporting_Cell_Identifier,
+ Cell_Identifier_V_GTPC      reporting_Cell_Identifier,
  octetstring                 sON_TransferRequestContainer   // 3GPP TS 36.413
 } with {
          variant (lengthIndicator) "LENGTHTO (reporting_Cell_Identifier,sON_TransferRequestContainer)";
@@ -1208,7 +1185,7 @@ type record RAN_Information_Request_Application_Container_UTRA_SI_GTPC
  OCT1                        iEI,
  BIT1                        ext,
  LIN2_2a_GTPC                lengthIndicator,
- Cell_Identifier_GTPC        reporting_Cell_Identifier
+ Cell_Identifier_V_GTPC      reporting_Cell_Identifier
 } with {
          variant (lengthIndicator) "LENGTHTO (reporting_Cell_Identifier)";
          variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
@@ -1231,7 +1208,7 @@ type record RAN_Information_Application_Container_NACC_GTPC
  OCT1                        iEI,
  BIT1                        ext,
  LIN2_2a_GTPC                lengthIndicator,
- Cell_Identifier_GTPC        reporting_Cell_Identifier,
+ Cell_Identifier_V_GTPC      reporting_Cell_Identifier,
  BIT1                        typeBit,
  BIT7                        number_of_SI_PSI,
  octetstring                 sI_PSI     // 3GPP TS 44.018, 44.060
@@ -1249,7 +1226,7 @@ type record RAN_Information_Application_Container_SI3_GTPC
  OCT1                        iEI,
  BIT1                        ext,
  LIN2_2a_GTPC                lengthIndicator,
- Cell_Identifier_GTPC        reporting_Cell_Identifier,
+ Cell_Identifier_V_GTPC      reporting_Cell_Identifier,
  octetstring                 sI3 length (21)       // 3GPP TS 44.018
 } with {
        variant (lengthIndicator)
@@ -1266,7 +1243,7 @@ type record RAN_Information_Application_Container_MBMS_GTPC
  OCT1                        iEI,
  BIT1                        ext,
  LIN2_2a_GTPC                lengthIndicator,
- Cell_Identifier_GTPC        reporting_Cell_Identifier,
+ Cell_Identifier_V_GTPC      reporting_Cell_Identifier,
  octetstring                 mBMS_ChannelReport
 } with {
        variant (lengthIndicator)
@@ -1282,7 +1259,7 @@ type record RAN_Information_Application_Container_SON_GTPC
  OCT1                        iEI,
  BIT1                        ext,
  LIN2_2a_GTPC                lengthIndicator,
- Cell_Identifier_GTPC        reporting_Cell_Identifier,
+ Cell_Identifier_V_GTPC      reporting_Cell_Identifier,
  octetstring                 sON_TransferResponseContainer // 3GPP TS 36.413
 
 
@@ -1300,7 +1277,7 @@ type record RAN_Information_Application_Container_UTRA_SI_GTPC
  OCT1                        iEI,
  BIT1                        ext,
  LIN2_2a_GTPC                lengthIndicator,
- Cell_Identifier_GTPC        reporting_Cell_Identifier,
+ Cell_Identifier_V_GTPC      reporting_Cell_Identifier,
  octetstring                 uTRA_SI_Container   // 3GPP TS25.331
 
 
