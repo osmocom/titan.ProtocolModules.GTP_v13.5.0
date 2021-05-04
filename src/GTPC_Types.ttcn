@@ -13,7 +13,7 @@
 //  Prodnr:             CNL 113 843
 //  Contact:            http://ttcn.ericsson.se
 //  Reference:          3GPP TS 29.060 v13.5.0
- 
+
 module GTPC_Types {
 
 import from General_Types all;
@@ -22,13 +22,13 @@ import from General_Types all;
 external function enc_PDU_GTPC(in PDU_GTPC gtpc_pdu) return octetstring
 with { extension "prototype(convert)"
        extension "encode(RAW)"
-     }        
+     }
 
 external function dec_PDU_GTPC(in octetstring udp_pdu, SystemUnderTest pl_SystemUnderTest := SGSN) return PDU_GTPC
 // for SGSN testing pl_SystemUnderTest is SGSN (default value)
-// for GGSN testing pl_SystemUnderTest is GGSN 
-// for CGW testing pl_SystemUnderTest is CGW 
-// for MME testing pl_SystemUnderTest is MME  
+// for GGSN testing pl_SystemUnderTest is GGSN
+// for CGW testing pl_SystemUnderTest is CGW
+// for MME testing pl_SystemUnderTest is MME
 // in current implementation the decoder behavior is identical for
 // SGSN and MME
 
@@ -45,8 +45,8 @@ type record IE_Type_Extension {
  LIN2_BO_LAST            lengthf, //16 bits
  IE_Extension_UnionType  iE_Type_Extension
 
-} with {  
-  variant (lengthf) "LENGTHTO(iE_Type_Extension)"; 
+} with {
+  variant (lengthf) "LENGTHTO(iE_Type_Extension)";
   variant "PRESENCE( type_gtpc = 'EE'O)";
 };
 
@@ -76,7 +76,7 @@ type record IMSI_gtpc {
 } with { variant "PRESENCE( type_gtpc = '02'O)"; };
 
 //Routing Area ID - 7.7.3
-// Note : the order of MNC digits is 
+// Note : the order of MNC digits is
 // MNC digit 3, MNC digit 1, MNC digit 2
 type record RoutingAreaIdentity {
  OCT1                   type_gtpc,
@@ -215,7 +215,7 @@ type record of RadioPriority RadioPriority_List;
 
 type record RadioPriority {
  OCT1                    type_gtpc,
- BIT3                    radiopriority, 
+ BIT3                    radiopriority,
  BIT1                    reserved,
  BIT4                    nsapi
 } with {variant "PRESENCE( type_gtpc = '18'O)";};
@@ -275,7 +275,7 @@ type record ChargingID {
 //End User Address ID - 7.7.27
 type record EndUserAddress{
  OCT1                    type_gtpc,
- EndUserAddress_types    endUserAddress 
+ EndUserAddress_types    endUserAddress
 }  with { variant "PRESENCE( type_gtpc = '80'O)";};
 
 type union EndUserAddress_types {
@@ -289,14 +289,14 @@ type union EndUserAddress_types {
                       endUserAddressPPP,  pdp_typenum = '01'O;
                       endUserAddressIPv4andIPv6, pdp_typenum = '8D'O;
                       endUserAddressOSPIHOS, OTHERWISE;)" };
-                      
+
 type record  EndUserAddressIPv4 {
  LIN2_BO_LAST             lengthf, //16 bits
  BIT4                     pdp_typeorg,
- BIT4                     spare, 
+ BIT4                     spare,
  OCT1                     pdp_typenum,
- OCT4                     ipv4_address optional 
-} with { variant (lengthf) "LENGTHTO(pdp_typeorg, spare, pdp_typenum, 
+ OCT4                     ipv4_address optional
+} with { variant (lengthf) "LENGTHTO(pdp_typeorg, spare, pdp_typenum,
                                      ipv4_address)"; };
 
 type record EndUserAddressIPv6 {
@@ -305,7 +305,7 @@ type record EndUserAddressIPv6 {
  BIT4                     spare,
  OCT1                     pdp_typenum,
  OCT16                    ipv6_address optional
-} with { variant (lengthf) "LENGTHTO(pdp_typeorg, spare, pdp_typenum, 
+} with { variant (lengthf) "LENGTHTO(pdp_typeorg, spare, pdp_typenum,
                                      ipv6_address)"; };
 
 type record  EndUserAddressPPP {
@@ -322,15 +322,15 @@ type record EndUserAddressIPv4andIPv6 {
  OCT1                     pdp_typenum,
  OCT4                     ipv4_address optional,
  OCT16                    ipv6_address optional
-} with { variant (lengthf) "LENGTHTO(pdp_typeorg, spare, pdp_typenum,ipv4_address, 
-                                     ipv6_address)"; 
-         variant(ipv4_address) "PRESENCE(lengthf = 6,lengthf = 22)"                                            
-         variant(ipv6_address) "PRESENCE(lengthf = 18,lengthf = 22)"                                      
+} with { variant (lengthf) "LENGTHTO(pdp_typeorg, spare, pdp_typenum,ipv4_address,
+                                     ipv6_address)";
+         variant(ipv4_address) "PRESENCE(lengthf = 6,lengthf = 22)"
+         variant(ipv6_address) "PRESENCE(lengthf = 18,lengthf = 22)"
 };
 
 // ETHECS: specification not found in Technical Specification
 type record  EndUserAddressOSPIHOS {
- LIN2_BO_LAST            lengthf, //16 bits 
+ LIN2_BO_LAST            lengthf, //16 bits
  BIT4                    pdp_typeorg,
  BIT4                    spare,
  OCT1                    pdp_typenum
@@ -359,24 +359,24 @@ type record  MM_ContextGSM {
  BIT5                    spare,
  BIT3                    usedCipher,
  integer                 noofVectors,
- BIT2                    security, 
+ BIT2                    security,
  OCT8                    kc,
  octetstring             triplet,
  OCT2                    drx_par,
  integer                 msNetW_cap_length,
  octetstring             msNetw_cap optional,
  LIN2_BO_LAST            containerLength,
- octetstring             container optional 
+ octetstring             container optional
 } with { variant (lengthf) "LENGTHTO(cksn, spare, usedCipher, noofVectors,
-                                     security, kc, triplet, drx_par, 
-                                     msNetW_cap_length, msNetw_cap, 
+                                     security, kc, triplet, drx_par,
+                                     msNetW_cap_length, msNetw_cap,
                                      containerLength, container
                                      )";
          variant (msNetW_cap_length) "LENGTHTO(msNetw_cap)";
          variant (containerLength) "LENGTHTO(container)";
          variant (noofVectors) "FIELDLENGTH(3)";
          variant (noofVectors) "LENGTHTO(triplet)";
-         variant (noofVectors) "UNIT(224)";    
+         variant (noofVectors) "UNIT(224)";
 };
 
 type record  MM_ContextUMTS {
@@ -398,14 +398,14 @@ type record  MM_ContextUMTS {
  LIN2_BO_LAST            containerLength,
  octetstring             container optional
 } with { variant (lengthf) "LENGTHTO(ksi, usedGPRSIntegrityAlgorithm, ugipai, gupii, spare1, noofVectors, security,
-                                     ck, ik, quintupletlength, quintuplet, 
+                                     ck, ik, quintupletlength, quintuplet,
                                      drx_par, msNetW_cap_length, msNetw_cap,
                                      containerLength, container
                                      )";
-         variant (quintupletlength) "LENGTHTO(quintuplet)"; 
+         variant (quintupletlength) "LENGTHTO(quintuplet)";
          variant (msNetW_cap_length) "LENGTHTO(msNetw_cap)";
          variant (containerLength) "LENGTHTO(container)";
-         variant (noofVectors) "FIELDLENGTH(3)"; 
+         variant (noofVectors) "FIELDLENGTH(3)";
 };
 
 type record  MM_ContextGSMUMTS {
@@ -428,10 +428,10 @@ type record  MM_ContextGSMUMTS {
                                     drx_par, msNetW_cap_length, msNetw_cap,
                                      containerLength, container
                                      )";
-         variant (quintupletlength) "LENGTHTO(quintuplet)"; 
+         variant (quintupletlength) "LENGTHTO(quintuplet)";
          variant (msNetW_cap_length) "LENGTHTO(msNetw_cap)";
          variant (containerLength) "LENGTHTO(container)";
-         variant (noofVectors) "FIELDLENGTH(3)"; 
+         variant (noofVectors) "FIELDLENGTH(3)";
 };
 
 type record  MM_ContextUMTSReceive {
@@ -458,21 +458,21 @@ type record  MM_ContextUMTSReceive {
                                      quintuplet, drx_par,msNetW_cap_length,
                                      msNetw_cap, containerLength, container
                                      )";
-         variant (quintupletlength) "LENGTHTO(quintuplet)"; 
+         variant (quintupletlength) "LENGTHTO(quintuplet)";
          variant (msNetW_cap_length) "LENGTHTO(msNetw_cap)";
          variant (containerLength) "LENGTHTO(container)";
-         variant (noofVectors) "FIELDLENGTH(3)"; 
+         variant (noofVectors) "FIELDLENGTH(3)";
 };
-         
-//From 9.9.3.34 of 3GPP 24.301 according to Req. Spec. 4/1056-LPA 107 579/1 Rev D 
+
+//From 9.9.3.34 of 3GPP 24.301 according to Req. Spec. 4/1056-LPA 107 579/1 Rev D
 type record GTPC_UENetworkCapabilityV
 {
   BIT8     eEA,
-  BIT7     eIA,  
-  BIT1     spare,  
-  BIT8     uEA      optional,  
+  BIT7     eIA,
+  BIT1     spare,
+  BIT8     uEA      optional,
   BIT7     uIA      optional,
-  BIT1     uCS2     optional, 
+  BIT1     uCS2     optional,
   BIT1     spare2   optional,
   BIT1     vCC      optional,
   BIT6     spare3   optional,
@@ -519,9 +519,9 @@ type record  PDP_Context_GTPC {
  BIT4                    transactionId ,
  BIT4                    spare3,
  OCT1                    transactionID_cont,
- OCT1                    pdp_typenum2 optional,              
- LIN1                    pdp_addresslength2 optional,        
- octetstring             pdp_Address2 length (0..63) optional  
+ OCT1                    pdp_typenum2 optional,
+ LIN1                    pdp_addresslength2 optional,
+ octetstring             pdp_Address2 length (0..63) optional
 } with {variant "PRESENCE( type_gtpc = '82'O)";
         variant (lengthf) "LENGTHTO(nsapi, order, asi, vaa, ea,
           sapi, spare1, qos_subLength, qos_sub, qos_reqLength, qos_req,
@@ -532,13 +532,13 @@ type record  PDP_Context_GTPC {
           ggsn_addressUserPlaneLength, ggsn_addressUserPlane, apnLength, apn,
           transactionId, spare3, transactionID_cont, pdp_typenum2,pdp_addresslength2,pdp_Address2)";
         variant (qos_subLength) "LENGTHTO(qos_sub)";
-        variant (qos_reqLength) "LENGTHTO(qos_req)"; 
+        variant (qos_reqLength) "LENGTHTO(qos_req)";
         variant (qos_negLength) "LENGTHTO(qos_neg)";
         variant (pdp_addressLength) "LENGTHTO(pdp_address)";
-        variant (ggsn_addressControlPlaneLength) 
+        variant (ggsn_addressControlPlaneLength)
           "LENGTHTO(ggsn_addressControlPlane)";
         variant (ggsn_addressUserPlaneLength) "LENGTHTO(ggsn_addressUserPlane)";
-        variant (apnLength) "LENGTHTO(apn)"; 	
+        variant (apnLength) "LENGTHTO(apn)";
         variant (pdp_typenum2,pdp_addresslength2,pdp_Address2) "PRESENCE( ea = '1'B)";
         variant (pdp_addresslength2) "LENGTHTO(pdp_Address2)";
 	};
@@ -584,11 +584,11 @@ type record  GSN_Address_GTPC {
 type record  MSISDN {
  OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
- octetstring               msisdn             
+ octetstring               msisdn
 } with { variant "PRESENCE( type_gtpc = '86'O)";
          variant (lengthf) "LENGTHTO(msisdn)"; };
 
-type record QoSV_GTPC 
+type record QoSV_GTPC
 {
  BIT3               reliabilityClass,
  BIT3               delayClass,
@@ -625,14 +625,14 @@ type record  QualityOfServiceProfile {
  OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  OCT1                      allocRetensionPrio,
- QoSV_GTPC                 qos_ProfileValue 
+ QoSV_GTPC                 qos_ProfileValue
 } with { variant "PRESENCE( type_gtpc = '87'O)";
          variant (lengthf) "LENGTHTO(allocRetensionPrio, qos_ProfileValue)";};
 
 type record  QualityOfServiceProfile_Value {
  OCT1                      allocRetensionPrio,
- QoSV_GTPC                 qos_ProfileValue 
-} 
+ QoSV_GTPC                 qos_ProfileValue
+}
 
 //Authentication Quituplet  -   7.7.35
 type record  AuthenticationQuintuplet_GTPC {
@@ -644,9 +644,9 @@ type record  AuthenticationQuintuplet_GTPC {
  OCT16                     ck,
  OCT16                     ik,
  integer                   autnLength,
- octetstring               autn 
+ octetstring               autn
 } with { variant "PRESENCE( type_gtpc = '88'O)";
-         variant (lengthf) "LENGTHTO(rand, xresLength, xres, ck, ik, 
+         variant (lengthf) "LENGTHTO(rand, xresLength, xres, ck, ik,
                                      autnLength, autn)";
          variant (xresLength) "LENGTHTO(xres)";
          variant (autnLength) "LENGTHTO(autn)"; };
@@ -656,7 +656,7 @@ type record  AuthenticationQuintuplet_GTPC {
 type record  TrafficFlowTemplate {
  OCT1                           type_gtpc,
  LIN2_BO_LAST                   lengthf,
- TrafficFlowTemplateV_GTPC      tft               
+ TrafficFlowTemplateV_GTPC      tft
 } with { variant "PRESENCE( type_gtpc = '89'O)";
          variant (lengthf) "LENGTHTO(tft)"; };
 
@@ -754,18 +754,18 @@ type record Parameter_GTPC
 
 //Target Identification  -   7.7.37
 type record  TargetIdentification {
- OCT1                      type_gtpc,        
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
- HEX1                      mcc1 optional,            
- HEX1                      mcc2 optional,            
- HEX1                      mcc3 optional,            
- HEX1                      mnc3 optional,            
- HEX1                      mnc1 optional,            
+ HEX1                      mcc1 optional,
+ HEX1                      mcc2 optional,
+ HEX1                      mcc3 optional,
+ HEX1                      mnc3 optional,
+ HEX1                      mnc1 optional,
  HEX1                      mnc2 optional,
  OCT2                      lac optional,
  OCT1                      rac optional,
  OCT2                      rnc_id optional,
- octetstring               extended_rnc_id optional        
+ octetstring               extended_rnc_id optional
 } with { variant "PRESENCE( type_gtpc = '8A'O)";
          variant (lengthf) "LENGTHTO(mcc1, mcc2, mcc3, mnc3, mnc1, mnc2,
                                      lac, rac, rnc_id, extended_rnc_id)"; };
@@ -782,29 +782,29 @@ type record  UTRANTransparentContainer {
 type record of RABSetupInformation RABSetupInformation_List
 
 type record RABSetupInformation{
- OCT1                       type_gtpc, 
+ OCT1                       type_gtpc,
  LIN2_BO_LAST               lengthf,
  BIT4                       nsapi,
  BIT4                       unused,
  OCT4                       teidData optional,
  octetstring                rncIpAddress optional
- } with { variant "PRESENCE( type_gtpc = '8C'O)"; 
-          variant (lengthf) "LENGTHTO(nsapi,unused,teidData,rncIpAddress)";}; 
+ } with { variant "PRESENCE( type_gtpc = '8C'O)";
+          variant (lengthf) "LENGTHTO(nsapi,unused,teidData,rncIpAddress)";};
 
 //Extension Header Type List  -  7.7.40
 type record  ExtensionHeaderTypeList_gtpc {
  OCT1                       type_gtpc,
  integer                    lengthf,
  octetstring                extensionTypesList
-} with { variant "PRESENCE( type_gtpc = '8D'O)"; 
+} with { variant "PRESENCE( type_gtpc = '8D'O)";
          variant (lengthf) "LENGTHTO(extensionTypesList)"; };
 
 //Trigger ID  -  7.7.41
 type record  GTP_TriggerID {
  OCT1                       type_gtpc,
  LIN2_BO_LAST               lengthf,
- octetstring                triggerID 
-} with { variant "PRESENCE( type_gtpc = '8E'O)"; 
+ octetstring                triggerID
+} with { variant "PRESENCE( type_gtpc = '8E'O)";
          variant (lengthf) "LENGTHTO(triggerID)";};
 
 //OMC Identity  -  7.7.42
@@ -815,7 +815,7 @@ type record  OMCIdentity {
 } with { variant "PRESENCE( type_gtpc = '8F'O)";
          variant (lengthf) "LENGTHTO(omcID)"; };
 
-//BSSGP RAN Information needed for RAN Transparent Container 
+//BSSGP RAN Information needed for RAN Transparent Container
 //From BSSGP specification 48.018 v9.3.0 according to CR 8446
 
 type union LIN2_2a_GTPC
@@ -827,7 +827,7 @@ integer length2
         variant (length2) "FIELDLENGTH(15)";
         variant (length2) "BYTEORDER(last)";
         variant (length1,length2) "FIELDORDER(msb)";
-      }   
+      }
 
 type record  PDU_in_Error_GTPC
 {
@@ -835,7 +835,7 @@ type record  PDU_in_Error_GTPC
  BIT1                   ext,
  LIN2_2a_GTPC           lengthIndicator,
  octetstring            erroneous_BSSGP_PDU
-} with { 
+} with {
         variant (lengthIndicator) "LENGTHTO (erroneous_BSSGP_PDU)";
         variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
                                              length2,         ext = '0'B;)";
@@ -854,10 +854,10 @@ type record Cell_Identifier_GTPC
  HEX1                   mncDigit1 ,
  HEX1                   mncDigit2 ,
  OCT2                   lac,
- OCT1                   rac,    
+ OCT1                   rac,
  OCT2                   cI_value
-} with { 
-      variant (lengthIndicator) 
+} with {
+      variant (lengthIndicator)
      "LENGTHTO(mccDigit1,mccDigit2,mccDigit3,mncDigit3,mncDigit1,
                mncDigit2,lac,rac,cI_value)";
       variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
@@ -865,19 +865,19 @@ type record Cell_Identifier_GTPC
       variant (ext,lengthIndicator) "FIELDORDER(msb)";
 };
 
-type record Cause_BSSGP_GTPC 
+type record Cause_BSSGP_GTPC
  {
  OCT1                   iEI,
  BIT1                   ext,
  LIN2_2a_GTPC           lengthIndicator,
  OCT1                   cause_Value
- } with { 
+ } with {
                 variant (lengthIndicator) "LENGTHTO (cause_Value)";
                 variant (lengthIndicator) "CROSSTAG( length1,    ext = '1'B;
                                                      length2,    ext = '0'B;)";
                 variant (ext,lengthIndicator) "FIELDORDER(msb)";
 };
- 
+
 //48.018 v9.3.0 11.3.61
 type record RIM_Application_Identity_GTPC
 {
@@ -885,8 +885,8 @@ type record RIM_Application_Identity_GTPC
  BIT1                   ext,
  LIN2_2a_GTPC           lengthIndicator,
  OCT1                   rIMApplicationIdentity
-} with { 
-         variant (lengthIndicator) "LENGTHTO (rIMApplicationIdentity)";        
+} with {
+         variant (lengthIndicator) "LENGTHTO (rIMApplicationIdentity)";
          variant (lengthIndicator) "CROSSTAG( length1,        ext = '1'B;
                                              length2,         ext = '0'B;)";
         variant (ext,lengthIndicator) "FIELDORDER(msb)";
@@ -899,8 +899,8 @@ type record RIM_Sequence_Number_GTPC
  BIT1                   ext,
  LIN2_2a_GTPC           lengthIndicator,
  OCT4                   rIMSequenceNumber
-} with { 
-         variant (lengthIndicator) "LENGTHTO (rIMSequenceNumber)";        
+} with {
+         variant (lengthIndicator) "LENGTHTO (rIMSequenceNumber)";
          variant (lengthIndicator) "CROSSTAG( length1,        ext = '1'B;
                                              length2,         ext = '0'B;)";
          variant (ext,lengthIndicator) "FIELDORDER(msb)";
@@ -916,33 +916,33 @@ RIM_Application_Identity_GTPC     rIM_Application_Identity,
 RIM_Sequence_Number_GTPC          rIM_Sequence_Number,
 RIM_PDU_Indications_GTPC          rIM_PDU_Indications,
 RIM_Protocol_Version_Number_GTPC  rIM_Protocol_Version_Number optional,
-RAN_Information_Request_Application_Container_GTPC  
+RAN_Information_Request_Application_Container_GTPC
                                         application_Container optional,
-SON_TransferApplicationIdentity   sON_TransferApplicationIdentity optional                                         
-} with { 
+SON_TransferApplicationIdentity   sON_TransferApplicationIdentity optional
+} with {
         variant (lengthIndicator) "LENGTHTO (rIM_Application_Identity,
            rIM_Sequence_Number,rIM_PDU_Indications,rIM_Protocol_Version_Number,
-           application_Container,sON_TransferApplicationIdentity)";        
+           application_Container,sON_TransferApplicationIdentity)";
         variant (lengthIndicator) "CROSSTAG( length1,        ext = '1'B;
                                              length2,         ext = '0'B;)";
-        variant (ext,lengthIndicator) "FIELDORDER(msb)"; 
-        variant "TAG (rIM_Protocol_Version_Number,   iEI = '55'O)";               
-        variant (application_Container) "PRESENCE (rIM_Application_Identity.rIMApplicationIdentity = '01'O;)";  
+        variant (ext,lengthIndicator) "FIELDORDER(msb)";
+        variant "TAG (rIM_Protocol_Version_Number,   iEI = '55'O)";
+        variant (application_Container) "PRESENCE (rIM_Application_Identity.rIMApplicationIdentity = '01'O;)";
         variant (application_Container) "PRESENCE (rIM_Application_Identity.rIMApplicationIdentity = '02'O;)";
         variant (application_Container) "PRESENCE (rIM_Application_Identity.rIMApplicationIdentity = '03'O;)";
         variant (application_Container) "PRESENCE (rIM_Application_Identity.rIMApplicationIdentity = '04'O;)";
-        variant (application_Container) "PRESENCE (rIM_Application_Identity.rIMApplicationIdentity = '05'O;)";                                
-        variant (application_Container) 
-	 "CROSSTAG 
+        variant (application_Container) "PRESENCE (rIM_Application_Identity.rIMApplicationIdentity = '05'O;)";
+        variant (application_Container)
+	 "CROSSTAG
 	     (nacc,rIM_Application_Identity.rIMApplicationIdentity = '01'O;
               si3 ,rIM_Application_Identity.rIMApplicationIdentity = '02'O;
               mBMS,rIM_Application_Identity.rIMApplicationIdentity = '03'O;
               sON, rIM_Application_Identity.rIMApplicationIdentity = '04'O;
               uTRA_SI,rIM_Application_Identity.rIMApplicationIdentity = '05'O;
-             )"                                  
-        variant (sON_TransferApplicationIdentity) 
+             )"
+        variant (sON_TransferApplicationIdentity)
 	 "PRESENCE
-	    (rIM_Application_Identity.rIMApplicationIdentity = '04'O;)";                  
+	    (rIM_Application_Identity.rIMApplicationIdentity = '04'O;)";
 };
 
 //48.018 v9.3.0 Table 11.3.62a.2
@@ -950,40 +950,40 @@ type record RAN_Information_RIM_Container_GTPC
 {
 OCT1                              iEI,
 BIT1                              ext,
-LIN2_2a_GTPC                      lengthIndicator,  
+LIN2_2a_GTPC                      lengthIndicator,
 RIM_Application_Identity_GTPC     rIM_Application_Identity,
 RIM_Sequence_Number_GTPC          rIM_Sequence_Number,
 RIM_PDU_Indications_GTPC          rIM_PDU_Indications,
 RIM_Protocol_Version_Number_GTPC  rIM_Protocol_Version_Number   optional,
-ApplContainer_or_ApplErrContainer_GTPC 
+ApplContainer_or_ApplErrContainer_GTPC
                               applContainer_or_ApplErrContainer optional,
-SON_TransferApplicationIdentity   sON_TransferApplicationIdentity optional                              
-}  with { 
+SON_TransferApplicationIdentity   sON_TransferApplicationIdentity optional
+}  with {
       variant (lengthIndicator) "LENGTHTO (rIM_Application_Identity,
            rIM_Sequence_Number,rIM_PDU_Indications,rIM_Protocol_Version_Number,
-           applContainer_or_ApplErrContainer,sON_TransferApplicationIdentity)";        
+           applContainer_or_ApplErrContainer,sON_TransferApplicationIdentity)";
       variant (lengthIndicator) "CROSSTAG( length1,        ext = '1'B;
                                            length2,        ext = '0'B;)";
       variant (ext,lengthIndicator) "FIELDORDER(msb)";
-      variant 
-       "TAG (rIM_Protocol_Version_Number,   iEI = '55'O;)";        
-      variant (applContainer_or_ApplErrContainer) "PRESENCE(rIM_Application_Identity.rIMApplicationIdentity = '01'O;)"; 
-      variant (applContainer_or_ApplErrContainer) "PRESENCE(rIM_Application_Identity.rIMApplicationIdentity = '02'O;)"; 
-      variant (applContainer_or_ApplErrContainer) "PRESENCE(rIM_Application_Identity.rIMApplicationIdentity = '03'O;)"; 
-      variant (applContainer_or_ApplErrContainer) "PRESENCE(rIM_Application_Identity.rIMApplicationIdentity = '04'O;)"; 
-      variant (applContainer_or_ApplErrContainer) "PRESENCE(rIM_Application_Identity.rIMApplicationIdentity = '05'O;)"; 
-      variant (applContainer_or_ApplErrContainer) 
+      variant
+       "TAG (rIM_Protocol_Version_Number,   iEI = '55'O;)";
+      variant (applContainer_or_ApplErrContainer) "PRESENCE(rIM_Application_Identity.rIMApplicationIdentity = '01'O;)";
+      variant (applContainer_or_ApplErrContainer) "PRESENCE(rIM_Application_Identity.rIMApplicationIdentity = '02'O;)";
+      variant (applContainer_or_ApplErrContainer) "PRESENCE(rIM_Application_Identity.rIMApplicationIdentity = '03'O;)";
+      variant (applContainer_or_ApplErrContainer) "PRESENCE(rIM_Application_Identity.rIMApplicationIdentity = '04'O;)";
+      variant (applContainer_or_ApplErrContainer) "PRESENCE(rIM_Application_Identity.rIMApplicationIdentity = '05'O;)";
+      variant (applContainer_or_ApplErrContainer)
        "CROSSTAG(nacc,rIM_Application_Identity.rIMApplicationIdentity = '01'O;
                  si3,rIM_Application_Identity.rIMApplicationIdentity = '02'O;
                  mBMS,rIM_Application_Identity.rIMApplicationIdentity = '03'O;
                  sON,rIM_Application_Identity.rIMApplicationIdentity = '04'O;
-                 uTRA_SI,rIM_Application_Identity.rIMApplicationIdentity = '05'O)"; 
-                 
-                       
-      variant (sON_TransferApplicationIdentity) 
+                 uTRA_SI,rIM_Application_Identity.rIMApplicationIdentity = '05'O)";
+
+
+      variant (sON_TransferApplicationIdentity)
 	 "PRESENCE
-	    (rIM_Application_Identity.rIMApplicationIdentity = '04'O;)";                           
-};         
+	    (rIM_Application_Identity.rIMApplicationIdentity = '04'O;)";
+};
 
 type union ApplContainer_or_ApplErrContainer_GTPC
 {
@@ -998,50 +998,50 @@ type union ApplContainer_or_ApplErrContainer_NACC_GTPC
 {
  RAN_Information_Application_Container_NACC_GTPC   application_Container,
  Application_Error_Container_NACC_GTPC             application_Error_Container
-} with { 
+} with {
          variant "TAG (
                         application_Container,  iEI = '4E'O;
-                        application_Error_Container, iEI = '56'O;)";   
+                        application_Error_Container, iEI = '56'O;)";
 }
 
 type union ApplContainer_or_ApplErrContainer_SI3_GTPC
 {
  RAN_Information_Application_Container_SI3_GTPC   application_Container,
  Application_Error_Container_SI3_GTPC             application_Error_Container
-} with { 
+} with {
          variant "TAG (
                         application_Container,  iEI = '4E'O;
-                        application_Error_Container, iEI = '56'O;)";   
+                        application_Error_Container, iEI = '56'O;)";
 }
 
 type union ApplContainer_or_ApplErrContainer_MBMS_GTPC
 {
  RAN_Information_Application_Container_MBMS_GTPC   application_Container,
  Application_Error_Container_MBMS_GTPC             application_Error_Container
-} with { 
+} with {
          variant "TAG (
                         application_Container,  iEI = '4E'O;
-                        application_Error_Container, iEI = '56'O;)";   
+                        application_Error_Container, iEI = '56'O;)";
 }
 
 type union ApplContainer_or_ApplErrContainer_SON_GTPC
 {
  RAN_Information_Application_Container_SON_GTPC   application_Container,
  Application_Error_Container_SON_GTPC             application_Error_Container
-} with { 
+} with {
          variant "TAG (
                         application_Container,  iEI = '4E'O;
-                        application_Error_Container, iEI = '56'O;)";   
+                        application_Error_Container, iEI = '56'O;)";
 }
 
 type union ApplContainer_or_ApplErrContainer_UTRA_SI_GTPC
 {
  RAN_Information_Application_Container_UTRA_SI_GTPC   application_Container,
  Application_Error_Container_UTRA_SI_GTPC             application_Error_Container
-} with { 
+} with {
          variant "TAG (
                         application_Container,  iEI = '4E'O;
-                        application_Error_Container, iEI = '56'O;)";   
+                        application_Error_Container, iEI = '56'O;)";
 }
 
 
@@ -1050,22 +1050,22 @@ type record RAN_Information_Ack_RIM_Container_GTPC
 {
 OCT1                              iEI,
 BIT1                              ext,
-LIN2_2a_GTPC                      lengthIndicator,  
+LIN2_2a_GTPC                      lengthIndicator,
 RIM_Application_Identity_GTPC     rIM_Application_Identity,
 RIM_Sequence_Number_GTPC          rIM_Sequence_Number,
 RIM_Protocol_Version_Number_GTPC  rIM_Protocol_Version_Number   optional,
 SON_TransferApplicationIdentity   sON_TransferApplicationIdentity optional
-} with { 
+} with {
         variant (lengthIndicator) "LENGTHTO (rIM_Application_Identity,
-          rIM_Sequence_Number,rIM_Protocol_Version_Number)";        
+          rIM_Sequence_Number,rIM_Protocol_Version_Number)";
         variant (lengthIndicator) "CROSSTAG( length1,        ext = '1'B;
                                            length2,         ext = '0'B;)";
         variant (ext,lengthIndicator) "FIELDORDER(msb)";
-  
-        variant "TAG (rIM_Protocol_Version_Number,   iEI = '55'O;)"; 
-        variant (sON_TransferApplicationIdentity) 
+
+        variant "TAG (rIM_Protocol_Version_Number,   iEI = '55'O;)";
+        variant (sON_TransferApplicationIdentity)
 	 "PRESENCE
-	    (rIM_Application_Identity.rIMApplicationIdentity = '04'O;)";                 
+	    (rIM_Application_Identity.rIMApplicationIdentity = '04'O;)";
 };
 
 //48.018 v9.3.0 Table 11.3.62a.4
@@ -1073,22 +1073,22 @@ type record RAN_Information_Error_RIM_Container_GTPC
 {
 OCT1                              iEI,
 BIT1                              ext,
-LIN2_2a_GTPC                      lengthIndicator,  
+LIN2_2a_GTPC                      lengthIndicator,
 RIM_Application_Identity_GTPC     rIM_Application_Identity,
 Cause_BSSGP_GTPC                  rIM_cause,
 RIM_Protocol_Version_Number_GTPC  rIM_Protocol_Version_Number   optional,
 PDU_in_Error_GTPC                 pDU_in_Error,
-SON_TransferApplicationIdentity   sON_TransferApplicationIdentity optional     
-} with { 
+SON_TransferApplicationIdentity   sON_TransferApplicationIdentity optional
+} with {
         variant (lengthIndicator) "LENGTHTO (rIM_Application_Identity,
-         rIM_cause,rIM_Protocol_Version_Number,pDU_in_Error)";        
+         rIM_cause,rIM_Protocol_Version_Number,pDU_in_Error)";
         variant (lengthIndicator) "CROSSTAG( length1,        ext = '1'B;
                                            length2,         ext = '0'B;)";
         variant (ext,lengthIndicator) "FIELDORDER(msb)";
-        variant "TAG (rIM_Protocol_Version_Number,   iEI = '55'O)"; 
-        variant (sON_TransferApplicationIdentity) 
+        variant "TAG (rIM_Protocol_Version_Number,   iEI = '55'O)";
+        variant (sON_TransferApplicationIdentity)
 	 "PRESENCE
-	    (rIM_Application_Identity.rIMApplicationIdentity = '04'O;)";         
+	    (rIM_Application_Identity.rIMApplicationIdentity = '04'O;)";
 };
 
 //48.018 v9.3.0 Table 11.3.62a.5
@@ -1096,33 +1096,33 @@ type record RAN_Information_Application_Error_RIM_Container_GTPC
 {
 OCT1                              iEI,
 BIT1                              ext,
-LIN2_2a_GTPC                      lengthIndicator,    
+LIN2_2a_GTPC                      lengthIndicator,
 RIM_Application_Identity_GTPC     rIM_Application_Identity,
 RIM_Sequence_Number_GTPC          rIM_Sequence_Number,
 RIM_PDU_Indications_GTPC          rIM_PDU_Indications,
 RIM_Protocol_Version_Number_GTPC  rIM_Protocol_Version_Number   optional,
 Application_Error_Container_GTPC  application_Error_Container,
 SON_TransferApplicationIdentity   sON_TransferApplicationIdentity optional
-} with { 
+} with {
      variant (lengthIndicator) "LENGTHTO (rIM_Application_Identity,
-       rIM_Sequence_Number,rIM_PDU_Indications,rIM_Protocol_Version_Number,  
-       application_Error_Container)";        
+       rIM_Sequence_Number,rIM_PDU_Indications,rIM_Protocol_Version_Number,
+       application_Error_Container)";
      variant (lengthIndicator) "CROSSTAG( length1,        ext = '1'B;
                                           length2,         ext = '0'B;)";
      variant (ext,lengthIndicator) "FIELDORDER(msb)";
- 
-     variant "TAG (rIM_Protocol_Version_Number,   iEI = '55'O)"; 
-          
+
+     variant "TAG (rIM_Protocol_Version_Number,   iEI = '55'O)";
+
      variant (application_Error_Container)
       "CROSSTAG (nacc,rIM_Application_Identity.rIMApplicationIdentity = '01'O;
                  si3,rIM_Application_Identity.rIMApplicationIdentity = '02'O;
                  mBMS,rIM_Application_Identity.rIMApplicationIdentity = '03'O;
                  sON,rIM_Application_Identity.rIMApplicationIdentity = '04'O;
-                 uTRA_SI,rIM_Application_Identity.rIMApplicationIdentity = '05'O)"; 
-                        
-     variant (sON_TransferApplicationIdentity) 
+                 uTRA_SI,rIM_Application_Identity.rIMApplicationIdentity = '05'O)";
+
+     variant (sON_TransferApplicationIdentity)
 	 "PRESENCE
-	    (rIM_Application_Identity.rIMApplicationIdentity = '04'O;)";        
+	    (rIM_Application_Identity.rIMApplicationIdentity = '04'O;)";
 };
 
 //48.018 v9.3.0 Table 11.3.64
@@ -1139,7 +1139,7 @@ type union Application_Error_Container_GTPC
 type union RAN_Information_Request_Application_Container_GTPC
 {
  RAN_Information_Request_Application_Container_NACC_GTPC      nacc,
- RAN_Information_Request_Application_Container_SI3_GTPC       si3, 
+ RAN_Information_Request_Application_Container_SI3_GTPC       si3,
  RAN_Information_Request_Application_Container_MBMS_GTPC      mBMS,
  RAN_Information_Request_Application_Container_SON_GTPC       sON,
  RAN_Information_Request_Application_Container_UTRA_SI_GTPC   uTRA_SI
@@ -1152,12 +1152,12 @@ type record RAN_Information_Request_Application_Container_NACC_GTPC
  BIT1                        ext,
  LIN2_2a_GTPC                lengthIndicator,
  Cell_Identifier_GTPC        reporting_Cell_Identifier
-} with { 
-         variant (lengthIndicator) "LENGTHTO (reporting_Cell_Identifier)";     
+} with {
+         variant (lengthIndicator) "LENGTHTO (reporting_Cell_Identifier)";
          variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
                                              length2,         ext = '0'B;)";
          variant (ext,lengthIndicator) "FIELDORDER(msb)";
-};        
+};
 
 //48.018 v9.3.0 Table 11.3.63.1.2
 type record RAN_Information_Request_Application_Container_SI3_GTPC
@@ -1166,8 +1166,8 @@ type record RAN_Information_Request_Application_Container_SI3_GTPC
  BIT1                        ext,
  LIN2_2a_GTPC                lengthIndicator,
  Cell_Identifier_GTPC        reporting_Cell_Identifier
-} with { 
-         variant (lengthIndicator) "LENGTHTO (reporting_Cell_Identifier)";     
+} with {
+         variant (lengthIndicator) "LENGTHTO (reporting_Cell_Identifier)";
          variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
                                              length2,         ext = '0'B;)";
          variant (ext,lengthIndicator) "FIELDORDER(msb)";
@@ -1180,8 +1180,8 @@ type record RAN_Information_Request_Application_Container_MBMS_GTPC
  BIT1                        ext,
  LIN2_2a_GTPC                lengthIndicator,
  Cell_Identifier_GTPC        reporting_Cell_Identifier
-} with { 
-         variant (lengthIndicator) "LENGTHTO (reporting_Cell_Identifier)";     
+} with {
+         variant (lengthIndicator) "LENGTHTO (reporting_Cell_Identifier)";
          variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
                                              length2,         ext = '0'B;)";
          variant (ext,lengthIndicator) "FIELDORDER(msb)";
@@ -1195,8 +1195,8 @@ type record RAN_Information_Request_Application_Container_SON_GTPC
  LIN2_2a_GTPC                lengthIndicator,
  Cell_Identifier_GTPC        reporting_Cell_Identifier,
  octetstring                 sON_TransferRequestContainer   // 3GPP TS 36.413
-} with { 
-         variant (lengthIndicator) "LENGTHTO (reporting_Cell_Identifier,sON_TransferRequestContainer)";     
+} with {
+         variant (lengthIndicator) "LENGTHTO (reporting_Cell_Identifier,sON_TransferRequestContainer)";
          variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
                                              length2,         ext = '0'B;)";
          variant (ext,lengthIndicator) "FIELDORDER(msb)";
@@ -1209,8 +1209,8 @@ type record RAN_Information_Request_Application_Container_UTRA_SI_GTPC
  BIT1                        ext,
  LIN2_2a_GTPC                lengthIndicator,
  Cell_Identifier_GTPC        reporting_Cell_Identifier
-} with { 
-         variant (lengthIndicator) "LENGTHTO (reporting_Cell_Identifier)";     
+} with {
+         variant (lengthIndicator) "LENGTHTO (reporting_Cell_Identifier)";
          variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
                                              length2,         ext = '0'B;)";
          variant (ext,lengthIndicator) "FIELDORDER(msb)";
@@ -1221,8 +1221,8 @@ type record SON_TransferApplicationIdentity
 {
  OCT1                        iEI,
  BIT1                        ext,
- LIN2_2a_GTPC                lengthIndicator, 
- octetstring         sON_TransferApplicationIdentityValue  
+ LIN2_2a_GTPC                lengthIndicator,
+ octetstring         sON_TransferApplicationIdentityValue
 }
 
 //48.018 v9.3.0 Table 11.3.63.2.1
@@ -1235,13 +1235,13 @@ type record RAN_Information_Application_Container_NACC_GTPC
  BIT1                        typeBit,
  BIT7                        number_of_SI_PSI,
  octetstring                 sI_PSI     // 3GPP TS 44.018, 44.060
-} with { 
-       variant (lengthIndicator) 
+} with {
+       variant (lengthIndicator)
         "LENGTHTO (reporting_Cell_Identifier,typeBit,number_of_SI_PSI,sI_PSI)";
        variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
                                             length2,         ext = '0'B;)";
        variant (ext,lengthIndicator) "FIELDORDER(msb)";
-};        
+};
 
 //48.018 v9.3.0 Table 11.3.63.2.2
 type record RAN_Information_Application_Container_SI3_GTPC
@@ -1251,14 +1251,14 @@ type record RAN_Information_Application_Container_SI3_GTPC
  LIN2_2a_GTPC                lengthIndicator,
  Cell_Identifier_GTPC        reporting_Cell_Identifier,
  octetstring                 sI3 length (21)       // 3GPP TS 44.018
-} with { 
-       variant (lengthIndicator) 
+} with {
+       variant (lengthIndicator)
         "LENGTHTO (reporting_Cell_Identifier,sI3)";
        variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
                                             length2,         ext = '0'B;)";
-       variant (ext,lengthIndicator) "FIELDORDER(msb)"; 
-       variant (sI3)"FIELDLENGTH(21)" ;      
-};        
+       variant (ext,lengthIndicator) "FIELDORDER(msb)";
+       variant (sI3)"FIELDLENGTH(21)" ;
+};
 
 //48.018 v9.3.0 Table 11.3.63.2.3
 type record RAN_Information_Application_Container_MBMS_GTPC
@@ -1268,13 +1268,13 @@ type record RAN_Information_Application_Container_MBMS_GTPC
  LIN2_2a_GTPC                lengthIndicator,
  Cell_Identifier_GTPC        reporting_Cell_Identifier,
  octetstring                 mBMS_ChannelReport
-} with { 
-       variant (lengthIndicator) 
+} with {
+       variant (lengthIndicator)
         "LENGTHTO (reporting_Cell_Identifier,mBMS_ChannelReport)";
        variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
                                             length2,         ext = '0'B;)";
-       variant (ext,lengthIndicator) "FIELDORDER(msb)";          
-};        
+       variant (ext,lengthIndicator) "FIELDORDER(msb)";
+};
 
 //48.018 v9.3.0 Table 11.3.63.2.4
 type record RAN_Information_Application_Container_SON_GTPC
@@ -1286,13 +1286,13 @@ type record RAN_Information_Application_Container_SON_GTPC
  octetstring                 sON_TransferResponseContainer // 3GPP TS 36.413
 
 
-} with { 
-       variant (lengthIndicator) 
+} with {
+       variant (lengthIndicator)
         "LENGTHTO (reporting_Cell_Identifier,sON_TransferResponseContainer)";
        variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
                                             length2,         ext = '0'B;)";
-       variant (ext,lengthIndicator) "FIELDORDER(msb)";          
-};        
+       variant (ext,lengthIndicator) "FIELDORDER(msb)";
+};
 
 //48.018 v9.3.0 Table 11.3.63.2.5
 type record RAN_Information_Application_Container_UTRA_SI_GTPC
@@ -1304,16 +1304,16 @@ type record RAN_Information_Application_Container_UTRA_SI_GTPC
  octetstring                 uTRA_SI_Container   // 3GPP TS25.331
 
 
-} with { 
-       variant (lengthIndicator) 
+} with {
+       variant (lengthIndicator)
         "LENGTHTO (reporting_Cell_Identifier,uTRA_SI_Container)";
        variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
                                             length2,         ext = '0'B;)";
-       variant (ext,lengthIndicator) "FIELDORDER(msb)";          
-};        
+       variant (ext,lengthIndicator) "FIELDORDER(msb)";
+};
 
 
-//48.018 v9.3.0 11.3.64.1 
+//48.018 v9.3.0 11.3.64.1
 type record Application_Error_Container_NACC_GTPC
 {
  OCT1                   iEI,
@@ -1321,30 +1321,30 @@ type record Application_Error_Container_NACC_GTPC
  LIN2_2a_GTPC           lengthIndicator,
  OCT1                   nACC_cause,
  Application_Container_IE_NACC_GTPC  erroneousApplicationContainer
-} with { 
+} with {
        variant (lengthIndicator)
-          "LENGTHTO (nACC_cause,erroneousApplicationContainer)"; 
+          "LENGTHTO (nACC_cause,erroneousApplicationContainer)";
        variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
                                             length2,         ext = '0'B;)";
        variant (ext,lengthIndicator) "FIELDORDER(msb)";
-};        
+};
 
 type union Application_Container_IE_NACC_GTPC
 {
-RAN_Information_Request_Application_Container_NACC_GTPC 
+RAN_Information_Request_Application_Container_NACC_GTPC
                         rAN_Information_Request_Application_Container,
-			
-RAN_Information_Application_Container_NACC_GTPC    
+
+RAN_Information_Application_Container_NACC_GTPC
                         rAN_Information_Application_Container
-}        
-with { 
+}
+with {
          variant "TAG (
                   rAN_Information_Request_Application_Container,  iEI = '4D'O;
-                  rAN_Information_Application_Container, iEI = '4E'O)";  
+                  rAN_Information_Application_Container, iEI = '4E'O)";
 }
 
 
-//48.018 v9.3.0 11.3.64.2 
+//48.018 v9.3.0 11.3.64.2
 type record Application_Error_Container_SI3_GTPC
 {
  OCT1                   iEI,
@@ -1352,30 +1352,30 @@ type record Application_Error_Container_SI3_GTPC
  LIN2_2a_GTPC           lengthIndicator,
  OCT1                   sI3_cause,
  Application_Container_IE_SI3_GTPC  erroneousApplicationContainer
-} with { 
+} with {
        variant (lengthIndicator)
-          "LENGTHTO (sI3_cause,erroneousApplicationContainer)"; 
+          "LENGTHTO (sI3_cause,erroneousApplicationContainer)";
        variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
                                             length2,         ext = '0'B;)";
        variant (ext,lengthIndicator) "FIELDORDER(msb)";
-};  
+};
 
 
 type union Application_Container_IE_SI3_GTPC
 {
-RAN_Information_Request_Application_Container_SI3_GTPC 
+RAN_Information_Request_Application_Container_SI3_GTPC
                         rAN_Information_Request_Application_Container,
-			
-RAN_Information_Application_Container_SI3_GTPC    
+
+RAN_Information_Application_Container_SI3_GTPC
                         rAN_Information_Application_Container
-}        
-with { 
+}
+with {
          variant "TAG (
                   rAN_Information_Request_Application_Container,  iEI = '4D'O;
-                  rAN_Information_Application_Container, iEI = '4E'O)";  
+                  rAN_Information_Application_Container, iEI = '4E'O)";
 }
 
-//48.018 v9.3.0 11.3.64.3 
+//48.018 v9.3.0 11.3.64.3
 type record Application_Error_Container_MBMS_GTPC
 {
  OCT1                   iEI,
@@ -1383,30 +1383,30 @@ type record Application_Error_Container_MBMS_GTPC
  LIN2_2a_GTPC           lengthIndicator,
  OCT1                   mBMS_cause,
  Application_Container_IE_MBMS_GTPC  erroneousApplicationContainer
-} with { 
+} with {
        variant (lengthIndicator)
-          "LENGTHTO (mBMS_cause,erroneousApplicationContainer)"; 
+          "LENGTHTO (mBMS_cause,erroneousApplicationContainer)";
        variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
                                             length2,         ext = '0'B;)";
        variant (ext,lengthIndicator) "FIELDORDER(msb)";
-};  
+};
 
 
 type union Application_Container_IE_MBMS_GTPC
 {
-RAN_Information_Request_Application_Container_MBMS_GTPC 
+RAN_Information_Request_Application_Container_MBMS_GTPC
                         rAN_Information_Request_Application_Container,
-			
-RAN_Information_Application_Container_MBMS_GTPC    
+
+RAN_Information_Application_Container_MBMS_GTPC
                         rAN_Information_Application_Container
-}        
-with { 
+}
+with {
          variant "TAG (
                   rAN_Information_Request_Application_Container,  iEI = '4D'O;
-                  rAN_Information_Application_Container, iEI = '4E'O)";  
+                  rAN_Information_Application_Container, iEI = '4E'O)";
 }
 
-//48.018 v9.3.0 11.3.64.4 
+//48.018 v9.3.0 11.3.64.4
 type record Application_Error_Container_SON_GTPC
 {
  OCT1                   iEI,
@@ -1414,31 +1414,31 @@ type record Application_Error_Container_SON_GTPC
  LIN2_2a_GTPC           lengthIndicator,
  OCT1                   sON_cause,
  Application_Container_IE_SON_GTPC  erroneousApplicationContainer
-} with { 
+} with {
        variant (lengthIndicator)
-          "LENGTHTO (sON_cause,erroneousApplicationContainer)"; 
+          "LENGTHTO (sON_cause,erroneousApplicationContainer)";
        variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
                                             length2,         ext = '0'B;)";
        variant (ext,lengthIndicator) "FIELDORDER(msb)";
-};  
+};
 
 
 type union Application_Container_IE_SON_GTPC
 {
-RAN_Information_Request_Application_Container_SON_GTPC 
+RAN_Information_Request_Application_Container_SON_GTPC
                         rAN_Information_Request_Application_Container,
-			
-RAN_Information_Application_Container_SON_GTPC    
+
+RAN_Information_Application_Container_SON_GTPC
                         rAN_Information_Application_Container
-}        
-with { 
+}
+with {
          variant "TAG (
                   rAN_Information_Request_Application_Container,  iEI = '4D'O;
-                  rAN_Information_Application_Container, iEI = '4E'O)";  
+                  rAN_Information_Application_Container, iEI = '4E'O)";
 }
 
 
-//48.018 v9.3.0 11.3.64.5 
+//48.018 v9.3.0 11.3.64.5
 type record Application_Error_Container_UTRA_SI_GTPC
 {
  OCT1                   iEI,
@@ -1446,27 +1446,27 @@ type record Application_Error_Container_UTRA_SI_GTPC
  LIN2_2a_GTPC           lengthIndicator,
  OCT1                   uTRA_SI_cause,
  Application_Container_IE_SON_GTPC  erroneousApplicationContainer
-} with { 
+} with {
        variant (lengthIndicator)
-          "LENGTHTO (uTRA_SI_cause,erroneousApplicationContainer)"; 
+          "LENGTHTO (uTRA_SI_cause,erroneousApplicationContainer)";
        variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
                                             length2,         ext = '0'B;)";
        variant (ext,lengthIndicator) "FIELDORDER(msb)";
-};  
+};
 
 
 type union Application_Container_IE_UTRA_SI_GTPC
 {
-RAN_Information_Request_Application_Container_UTRA_SI_GTPC 
+RAN_Information_Request_Application_Container_UTRA_SI_GTPC
                         rAN_Information_Request_Application_Container,
-			
-RAN_Information_Application_Container_UTRA_SI_GTPC    
+
+RAN_Information_Application_Container_UTRA_SI_GTPC
                         rAN_Information_Application_Container
-}        
-with { 
+}
+with {
          variant "TAG (
                   rAN_Information_Request_Application_Container,  iEI = '4D'O;
-                  rAN_Information_Application_Container, iEI = '4E'O)";  
+                  rAN_Information_Application_Container, iEI = '4E'O)";
 }
 
 
@@ -1479,7 +1479,7 @@ type record RIM_PDU_Indications_GTPC
  BIT1                   ack,
  BIT3                   pDU_Type_Extension,
  BIT4                   reserved
-} with { 
+} with {
         variant (lengthIndicator) "LENGTHTO (ack,pDU_Type_Extension,reserved)";
         variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
                                              length2,         ext = '0'B;)";
@@ -1493,12 +1493,12 @@ type record RIM_Protocol_Version_Number_GTPC
  BIT1                   ext,
  LIN2_2a_GTPC           lengthIndicator,
  OCT1                   rIMProtocolVersionNumber
-} with { 
-         variant (lengthIndicator) "LENGTHTO (rIMProtocolVersionNumber)";   
+} with {
+         variant (lengthIndicator) "LENGTHTO (rIMProtocolVersionNumber)";
          variant (lengthIndicator) "CROSSTAG( length1,        ext = '1'B;
                                               length2,        ext = '0'B;)";
          variant (ext,lengthIndicator) "FIELDORDER(msb)";
-};        
+};
 
 //48.018 v9.3.0  11.3.70
 type record RIM_Routing_Information_GTPC
@@ -1508,22 +1508,22 @@ type record RIM_Routing_Information_GTPC
  LIN2_2a_GTPC           lengthIndicator,
  HEX1                   rIMRoutingAddressDiscriminator,
  HEX1                   spare,
- RIM_Routing_Address_GTPC    rIM_Routing_Address 
-}  with { 
-       variant (lengthIndicator) 
-	"LENGTHTO (rIMRoutingAddressDiscriminator,spare,rIM_Routing_Address)"; 
+ RIM_Routing_Address_GTPC    rIM_Routing_Address
+}  with {
+       variant (lengthIndicator)
+	"LENGTHTO (rIMRoutingAddressDiscriminator,spare,rIM_Routing_Address)";
        variant (lengthIndicator) "CROSSTAG( length1,         ext = '1'B;
                                              length2,         ext = '0'B;)";
        variant (ext,lengthIndicator) "FIELDORDER(msb)";
 
-       variant (rIM_Routing_Address) 
+       variant (rIM_Routing_Address)
 	 "CROSSTAG (cell_Identifier,rIMRoutingAddressDiscriminator = '0'H;
                     rNCID,          rIMRoutingAddressDiscriminator = '1'H;
-                    eNB_Identifier, rIMRoutingAddressDiscriminator = '2'H;)" 
+                    eNB_Identifier, rIMRoutingAddressDiscriminator = '2'H;)"
 };
 
 type record Cell_Identifier_V_GTPC
-{ 
+{
  HEX1                   mccDigit1,
  HEX1                   mccDigit2,
  HEX1                   mccDigit3,
@@ -1531,13 +1531,13 @@ type record Cell_Identifier_V_GTPC
  HEX1                   mncDigit1,
  HEX1                   mncDigit2,
  OCT2                   lac,
- OCT1                   rac,    
+ OCT1                   rac,
  OCT2                   cI_value
 };
 
 type union RIM_Routing_Address_GTPC
 {
- Cell_Identifier_V_GTPC   cell_Identifier, 
+ Cell_Identifier_V_GTPC   cell_Identifier,
  RNC_ID_BSSGP_GTPC        rNCID,
  ENB_Identifier           eNB_Identifier
  }
@@ -1554,11 +1554,11 @@ type record RNC_ID_BSSGP_GTPC
  OCT1                   rAC,
  HEX1                   spare,
  integer                rNC_ID
-}  with { 
+}  with {
           variant (spare,rNC_ID) "FIELDORDER(msb)";
-          variant (rNC_ID) "BYTEORDER(last)";  
+          variant (rNC_ID) "BYTEORDER(last)";
           variant (rNC_ID) "FIELDLENGTH(12)";
-} 
+}
 
 type record ENB_Identifier
 {
@@ -1581,12 +1581,12 @@ type record GlobalRNC_ID_BSSGP_GTPC
  HEX1                   mccDigit3,
  HEX1                   mncDigit3,
  HEX1                   mncDigit1,
- HEX1                   mncDigit2, 
+ HEX1                   mncDigit2,
 
  integer                rNC_ID
-}  with { 
+}  with {
           variant (spare,rNC_ID) "FIELDORDER(msb)";
-          variant (rNC_ID) "BYTEORDER(last)";  
+          variant (rNC_ID) "BYTEORDER(last)";
           variant (rNC_ID) "FIELDLENGTH(12)";
 }
 */
@@ -1599,7 +1599,7 @@ type record PDU_BSSGP_RAN_INFORMATION_REQUEST_GTPC
  RIM_Routing_Information_GTPC  	   source_Cell_Identifier,
  RAN_Information_Request_RIM_Container_GTPC  rIM_Container
 };
-      
+
 //48.018 v9.3.0  10.6.2
 type record PDU_BSSGP_RAN_INFORMATION_GTPC
 {
@@ -1636,23 +1636,23 @@ type record PDU_BSSGP_RAN_INFORMATION_APPLICATION_ERROR_GTPC
  RAN_Information_Application_Error_RIM_Container_GTPC  rIM_Container
 };
 
-type union RANTransparentContainerField  
-{    
+type union RANTransparentContainerField
+{
 PDU_BSSGP_RAN_INFORMATION_REQUEST_GTPC       pDU_BSSGP_RAN_INFORMATION_REQUEST,
 PDU_BSSGP_RAN_INFORMATION_GTPC               pDU_BSSGP_RAN_INFORMATION,
 PDU_BSSGP_RAN_INFORMATION_ACK_GTPC           pDU_BSSGP_RAN_INFORMATION_ACK,
 PDU_BSSGP_RAN_INFORMATION_ERROR_GTPC         pDU_BSSGP_RAN_INFORMATION_ERROR,
-PDU_BSSGP_RAN_INFORMATION_APPLICATION_ERROR_GTPC  
+PDU_BSSGP_RAN_INFORMATION_APPLICATION_ERROR_GTPC
                                   pDU_BSSGP_RAN_INFORMATION_APPLICATION_ERROR
-} with { variant "TAG (        
+} with { variant "TAG (
   pDU_BSSGP_RAN_INFORMATION_REQUEST,           bssgpPduType ='71'O;
   pDU_BSSGP_RAN_INFORMATION,       bssgpPduType ='70'O;
   pDU_BSSGP_RAN_INFORMATION_ACK,   bssgpPduType ='72'O;
   pDU_BSSGP_RAN_INFORMATION_ERROR, bssgpPduType ='73'O;
-  pDU_BSSGP_RAN_INFORMATION_APPLICATION_ERROR, bssgpPduType ='74'O  
-  )"  
+  pDU_BSSGP_RAN_INFORMATION_APPLICATION_ERROR, bssgpPduType ='74'O
+  )"
 };
-  
+
 //RAN Transparent Container 7.7.43
 type record RANTransparentContainer{
  OCT1                                 type_gtpc,
@@ -1691,7 +1691,7 @@ type record AdditionalRABSetupInformation {
  BIT4                       unused,
  OCT4                       teidData optional,
  octetstring                rncIpAddress optional
-} with {variant "PRESENCE( type_gtpc = '92'O)"; 
+} with {variant "PRESENCE( type_gtpc = '92'O)";
         variant (lengthf) "LENGTHTO(nsapi,unused,teidData,rncIpAddress)"; };
 
 //Private Extension  -  7.7.46
@@ -1702,7 +1702,7 @@ type record  PrivateExtension_gtpc {
  LIN2_BO_LAST               lengthf,
  OCT2                       extensionID,
  octetstring                extensionValue
-} with {variant "PRESENCE( type_gtpc = 'FF'O)"; 
+} with {variant "PRESENCE( type_gtpc = 'FF'O)";
         variant (lengthf) "LENGTHTO(extensionID, extensionValue)"; };
 
 //SGSN Number - 7.7.47
@@ -1710,7 +1710,7 @@ type record SGSN_Number {
  OCT1                       type_gtpc,
  LIN2_BO_LAST               lengthf,
  octetstring                sGSN_NumberValue
-} with { variant "PRESENCE( type_gtpc = '93'O)"; 
+} with { variant "PRESENCE( type_gtpc = '93'O)";
          variant (lengthf) "LENGTHTO(sGSN_NumberValue)"; };
 
 //Common Flags - 7.7.48
@@ -1728,7 +1728,7 @@ type record CommonFlags {
 } with { variant "PRESENCE( type_gtpc = '94'O)";
          variant (lengthf) "LENGTHTO(prohibitPayloadCompression,mBMS_ServiceType,
                                      rAN_ProceduresReady,mBMS_CountingInformation,
-                                     nO_QoS_Negotiation,nRSN,upgradeQoS_Supported,dualAddressBearerFlag)"; }; 
+                                     nO_QoS_Negotiation,nRSN,upgradeQoS_Supported,dualAddressBearerFlag)"; };
 
 //APN Restriction - 7.7.49
 type record APN_Restriction  {
@@ -1736,15 +1736,15 @@ type record APN_Restriction  {
  LIN2_BO_LAST               lengthf,
  OCT1                       restrictionTypeValue
 } with { variant "PRESENCE( type_gtpc = '95'O)";
-         variant (lengthf) "LENGTHTO(restrictionTypeValue)"; }; 
-  
+         variant (lengthf) "LENGTHTO(restrictionTypeValue)"; };
+
 // RAT Type  -  7.7.50
 type record RATType {
  OCT1                       type_gtpc,
  LIN2_BO_LAST               lengthf,
  OCT1                       ratTypeValue
 } with { variant "PRESENCE( type_gtpc = '97'O)";
-         variant (lengthf) "LENGTHTO(ratTypeValue)"; }; 
+         variant (lengthf) "LENGTHTO(ratTypeValue)"; };
 
 // User Location Information  -  7.7.51
 type record UserLocationInformation {
@@ -1809,8 +1809,8 @@ type record MS_TimeZone {
  BIT3                       spare1,
 // This bit is proprietary, compared to the 3GPP definition of
 // the Time Zone information element.
-// The new field "SGSN Attempts to Update MS" is described in 
-// the following CPI documentation: GSN CDR Format, 
+// The new field "SGSN Attempts to Update MS" is described in
+// the following CPI documentation: GSN CDR Format,
 // 1/190 83-AXB 250 05/6 Uen A.
 // Web link to CPI: http://cpi2.al.sw.ericsson.se/alex?pr=PDU+PCN
  BIT1                       sgsnAttempsToUpdateMS,
@@ -1864,9 +1864,9 @@ type record MBMS_UE_ContextContainer {
           ggsn_addressControlPlaneLength, ggsn_addressControlPlane,
           apnLength, apn, transactionId, spare3, transactionID)";
         variant (pdp_addressLength) "LENGTHTO(pdp_address)";
-        variant (ggsn_addressControlPlaneLength) 
+        variant (ggsn_addressControlPlaneLength)
           "LENGTHTO(ggsn_addressControlPlane)";
-        variant (apnLength) "LENGTHTO(apn)"; 	
+        variant (apnLength) "LENGTHTO(apn)";
 	};
 
 // Temporary Mobile Group Identity - 7.7.56
@@ -1882,12 +1882,12 @@ type record RIM_RoutingAddress {
  OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  octetstring               rIM_RoutingAddressValue
-   //Left as octetstring because GTP spec does not include the RIM Routing 
+   //Left as octetstring because GTP spec does not include the RIM Routing
    // Address Discriminator and therefore decoding is not possible as in 48.018
-   //CR 544 states that "The RIM Routing Address contains the destination RNC 
-   // Identity from the RAN INFORMATION message when the source is GERAN and 
+   //CR 544 states that "The RIM Routing Address contains the destination RNC
+   // Identity from the RAN INFORMATION message when the source is GERAN and
    // the target is UTRAN.
-   //The RIM Routing Address contains the destination Cell Identifier from the 
+   //The RIM Routing Address contains the destination Cell Identifier from the
    // RAN INFORMATION message when the source is GERAN and the target ir GERAN.
 } with { variant "PRESENCE( type_gtpc = '9E'O)";
          variant (lengthf) "LENGTHTO(rIM_RoutingAddressValue)"; };
@@ -1911,7 +1911,7 @@ type record MBMS_SessionDuration {
 
 // MBMS Service Area - 7.7.60
 type record MBMS_ServiceArea {
- OCT1                       type_gtpc, 
+ OCT1                       type_gtpc,
  LIN2_BO_LAST               lengthf,
  octetstring                mBMS_ServiceAreaValue
 } with { variant "PRESENCE( type_gtpc = 'A0'O)";
@@ -1919,7 +1919,7 @@ type record MBMS_ServiceArea {
 
 // Source RNC PDCP context info - 7.7.61
 type record SourceRNC_PDCP_ContextInfo {
- OCT1                       type_gtpc, 
+ OCT1                       type_gtpc,
  LIN2_BO_LAST               lengthf,
  octetstring                rRC_Container
 } with { variant "PRESENCE( type_gtpc = 'A1'O)";
@@ -1927,7 +1927,7 @@ type record SourceRNC_PDCP_ContextInfo {
 
 // Additional Trace Info - 7.7.62
 type record AdditionalTraceInfo {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  OCT3                      traceReference2,
  OCT2                      traceRecordingSessionReference,
@@ -1943,7 +1943,7 @@ type record AdditionalTraceInfo {
 
 // Hop Counter - 7.7.63
 type record HopCounter_gtpc {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  integer                   hopCounter
 } with { variant "PRESENCE( type_gtpc = 'A3'O)";
@@ -1951,7 +1951,7 @@ type record HopCounter_gtpc {
 
 // Selected PLMN ID - 7.7.64
 type record Selected_PLMN_ID {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  OCT3                      selected_PLMN_Identity
 } with { variant "PRESENCE( type_gtpc = 'A4'O)";
@@ -1959,7 +1959,7 @@ type record Selected_PLMN_ID {
 
 // MBMS Session Identifier - 7.7.65
 type record MBMS_SessionIdentifier {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  OCT1                      mBMS_SessionIdentifier
 } with { variant "PRESENCE( type_gtpc = 'A5'O)";
@@ -1967,7 +1967,7 @@ type record MBMS_SessionIdentifier {
 
 // MBMS 2G/3G Indicator - 7.7.66
 type record MBMS_2G_3G_Indicator {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  OCT1                      mBMS_2G_3G_Indicator
 } with { variant "PRESENCE( type_gtpc = 'A6'O)";
@@ -1975,7 +1975,7 @@ type record MBMS_2G_3G_Indicator {
 
 // Enhanced NSAPI - 7.7.67
 type record Enhanced_NSAPI {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  OCT1                      enhanced_NSAPI
 } with { variant "PRESENCE( type_gtpc = 'A7'O)";
@@ -1983,7 +1983,7 @@ type record Enhanced_NSAPI {
 
 // Additional MBMS Trace Info - 7.7.68
 type record AdditionalMBMSTraceInfo {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  OCT3                      traceReference2,
  OCT2                      traceRecordingSessionReference,
@@ -1993,13 +1993,13 @@ type record AdditionalMBMSTraceInfo {
  OCT1                      traceActivityControl_BM_SC
 } with { variant "PRESENCE( type_gtpc = 'A9'O)";
          variant (lengthf) "LENGTHTO(traceReference2, traceRecordingSessionReference,
-                                     triggeringEvents_BM_SC, traceDepth_BM_SC, 
+                                     triggeringEvents_BM_SC, traceDepth_BM_SC,
                                      listOfInterfaces_BM_SC, traceActivityControl_BM_SC)";
   };
 
 // MBMS Session Repetition Number - 7.7.69
 type record MBMS_SessionRepetitionNumber {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  OCT1                      mBMS_SessionRepetitionNumber
 } with { variant "PRESENCE( type_gtpc = 'AA'O)";
@@ -2007,7 +2007,7 @@ type record MBMS_SessionRepetitionNumber {
 
 // MBMS Time To Data Transfer - 7.7.70
 type record MBMS_TimeToDataTransfer {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  OCT1                      mBMS_TimeToDataTransfer
 } with { variant "PRESENCE( type_gtpc = 'AB'O)";
@@ -2015,7 +2015,7 @@ type record MBMS_TimeToDataTransfer {
 
 // BSS Container - 7.7.72
 type record BSS_Container {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  octetstring               bSS_Container  // TODO FIXME: which Container is the BSS Container?
 } with { variant "PRESENCE( type_gtpc = 'AD'O)";
@@ -2025,8 +2025,8 @@ type record BSS_Container {
 // Cell Identification - 7.7.73
 
 // Routing Area identification - from 24.008 10.5.5.15
-type record RoutingAreaIdentificationV_gtpc  
-{  
+type record RoutingAreaIdentificationV_gtpc
+{
  HEX1               mccDigit1,
  HEX1               mccDigit2,
  HEX1               mccDigit3,
@@ -2034,32 +2034,32 @@ type record RoutingAreaIdentificationV_gtpc
  HEX1               mncDigit1,
  HEX1               mncDigit2,
  OCT2               lac,
- OCT1               rac               
+ OCT1               rac
 };
 
 type record RNC_Identifier_gtpc {
- RoutingAreaIdentificationV_gtpc   routingAreaIdentificationV_gtpc, 
+ RoutingAreaIdentificationV_gtpc   routingAreaIdentificationV_gtpc,
  integer                           rNC_ID,
  HEX1                              spare
-}  with { 
+}  with {
           variant (spare,rNC_ID) "FIELDORDER(msb)";
-          variant (rNC_ID) "BYTEORDER(last)";  
+          variant (rNC_ID) "BYTEORDER(last)";
           variant (rNC_ID) "FIELDLENGTH(12)";
 }
-   
+
 type union Cell_ID_or_RNC_ID {
  Cell_Identifier_V_GTPC   cell_Identifier,
  RNC_Identifier_gtpc      rNC_Identifier
-}   
+}
 
 type record Cell_Identification_gtpc {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  Cell_Identifier_V_GTPC    targetCell_ID,
  OCT1                      sourceType,  //0 - Source Cell ID / 1- Source RNC ID in next field
- Cell_ID_or_RNC_ID         source_Cell_ID_or_RNC_ID  
-} with {variant "PRESENCE( type_gtpc = 'AE'O)"; 
-        variant (lengthf) "LENGTHTO(targetCell_ID,sourceType,source_Cell_ID_or_RNC_ID)"; 
+ Cell_ID_or_RNC_ID         source_Cell_ID_or_RNC_ID
+} with {variant "PRESENCE( type_gtpc = 'AE'O)";
+        variant (lengthf) "LENGTHTO(targetCell_ID,sourceType,source_Cell_ID_or_RNC_ID)";
         variant (source_Cell_ID_or_RNC_ID) "CROSSTAG ( cell_Identifier, sourceType = '00'O;
                                                      rNC_Identifier, sourceType = '01'O)"; };
 
@@ -2067,21 +2067,21 @@ type record Cell_Identification_gtpc {
 type record of PDU_Numbers PDU_Numbers_List;
 
 type record PDU_Numbers {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  BIT4                      nsapi,
  BIT4                      spare,
  OCT2                      dL_GTPU_SequenceNumber,
  OCT2                      uL_GTPU_SequenceNumber,
- OCT2                      sendNPDUnum,    
- OCT2                      receiveNPDUnum  
-} with {variant "PRESENCE( type_gtpc = 'AF'O)"; 
+ OCT2                      sendNPDUnum,
+ OCT2                      receiveNPDUnum
+} with {variant "PRESENCE( type_gtpc = 'AF'O)";
         variant (lengthf) "LENGTHTO(nsapi, spare, dL_GTPU_SequenceNumber, uL_GTPU_SequenceNumber,
               sendNPDUnum, receiveNPDUnum)"; };
 
 // BSSGP Cause - 7.7.75
 type record BSSGP_Cause_gtpc {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  OCT1                      bSSGP_Cause
 } with { variant "PRESENCE( type_gtpc = 'B0'O)";
@@ -2089,11 +2089,11 @@ type record BSSGP_Cause_gtpc {
 
 // Required MBMS Bearer Capabilities - 7.7.76
 type record RequiredMBMS_BearerCapabilities {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  octetstring               reqMBMS_BearerCapValue
 } with { variant "PRESENCE( type_gtpc = 'B1'O)";
-         variant (lengthf) "LENGTHTO(reqMBMS_BearerCapValue)"; }; 
+         variant (lengthf) "LENGTHTO(reqMBMS_BearerCapValue)"; };
 
 // RIM Routing Address Discriminator 7.7.77
 type record RIM_RoutingAddress_Discriminator {
@@ -2119,15 +2119,15 @@ type record ListOfSetupPFCsValue_gtpc
 {
   integer                number_of_PFCs (0..11),   // note: 12 .. 255 are reserved!!!
   Multiple_PFIs_gtpc     pFIs
-} with 
-{   
+} with
+{
   variant (number_of_PFCs) "UNIT(elements),LENGTHTO(pFIs),FIELDLENGTH(8)";
 }
 
 type record ListOfSetupPFCs_gtpc {
- OCT1                        type_gtpc, 
+ OCT1                        type_gtpc,
  LIN2_BO_LAST                lengthf,
- ListOfSetupPFCsValue_gtpc   listOfSetupPFCs    
+ ListOfSetupPFCsValue_gtpc   listOfSetupPFCs
 } with { variant "PRESENCE( type_gtpc = 'B3'O)";
          variant (lengthf) "LENGTHTO(listOfSetupPFCs)"; };
 
@@ -2135,19 +2135,19 @@ type record ListOfSetupPFCs_gtpc {
 type record of PS_HandoverXIDParameters PS_HandoverXIDParameters_List;
 
 type record PS_HandoverXIDParameters {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  BIT4                      sapi,
  BIT4                      spare,
  LIN1                      xID_ParametersLength,
- XID_Information_GTPC      xID_Parameters optional  
+ XID_Information_GTPC      xID_Parameters optional
 } with {
          variant (lengthf) "LENGTHTO(sapi,spare,xID_ParametersLength,xID_Parameters)";
          variant (xID_ParametersLength) "LENGTHTO(xID_Parameters)";
-         variant "PRESENCE(type_gtpc = 'B4'O)" 
+         variant "PRESENCE(type_gtpc = 'B4'O)"
        };
 
-//The following types are based on types in LLC_Types.ttcn 
+//The following types are based on types in LLC_Types.ttcn
 
 type record of XID_GTPC XID_Information_GTPC;
 
@@ -2157,8 +2157,8 @@ type record XID_GTPC
   BIT5               typefield,
   XID_length_GTPC    xID_length,
   //Header_XID      header_XID,
-  XID_Data_GTPC	     xID_Data      
-} with { 
+  XID_Data_GTPC	     xID_Data
+} with {
   variant (xID_Data) "CROSSTAG( version, 	typefield = '00000'B;
 				     iOV_UI, 	typefield = '00001'B;
 				     iOV_I, 	typefield = '00010'B;
@@ -2172,14 +2172,14 @@ type record XID_GTPC
 				     kU, 	typefield = '01010'B;
 				     l3param, 	typefield = '01011'B;
 				     reset, 	typefield = '01100'B;
-				     
+
 					 )";
   variant  "FIELDORDER(msb)";
   variant (xID_length) "CROSSTAG( short_len, 	xl = '0'B;
 				                long_len, 	xl = '1'B;)";
   variant (xID_length) "LENGTHTO (xID_Data)"
 
-  variant (xID_length) "PADDING(yes)" 
+  variant (xID_length) "PADDING(yes)"
 };
 
 type union  XID_length_GTPC
@@ -2204,12 +2204,12 @@ type union XID_Data_GTPC
   N200_GTPC		n200,
   N201_U_GTPC		n201_U,
   N201_I_GTPC		n201_I,
-  MD_GTPC		mD,	
+  MD_GTPC		mD,
   MU_GTPC		mU,
   KD_GTPC		kD,
   KU_GTPC		kU,
   L3param_GTPC		l3param,
-  Reset_LLC_GTPC	reset    	
+  Reset_LLC_GTPC	reset
 }
 
 type record Version_GTPC
@@ -2221,11 +2221,11 @@ type record Version_GTPC
   variant (version_value) "FIELDLENGTH(4)";
 }
 
-type octetstring IOV_UI_GTPC length(4) 
+type octetstring IOV_UI_GTPC length(4)
 
 
 type octetstring IOV_I_GTPC length(4)
- 
+
 
 type record T200_GTPC
 {
@@ -2244,7 +2244,7 @@ type record N200_GTPC
   BIT4		spare
 } with {
   variant (retransmissions) "FIELDLENGTH(4)";
-}     
+}
 
 
 type record N201_U_GTPC
@@ -2290,30 +2290,30 @@ type record MU_GTPC
   variant  "FIELDORDER(msb)";
 };
 
-type integer KD_GTPC with {variant  "FIELDLENGTH(8)";};	
+type integer KD_GTPC with {variant  "FIELDLENGTH(8)";};
 
-type integer KU_GTPC with {variant  "FIELDLENGTH(8)";};	
+type integer KU_GTPC with {variant  "FIELDLENGTH(8)";};
 
 type octetstring L3param_GTPC;
 
 type octetstring Reset_LLC_GTPC length(0);
 // end of types copied from LLC_Types.ttcn
- 
-     
+
+
 //  MS Info Change reporting Action 7.7.80
 type record MS_InfoChangeReportingAction {
- OCT1                       type_gtpc, 
+ OCT1                       type_gtpc,
  LIN2_BO_LAST               lengthf,
- OCT1                       actionfield      
+ OCT1                       actionfield
 } with { variant "PRESENCE( type_gtpc = 'B5'O)";
          variant (lengthf) "LENGTHTO(actionfield)"; };
 
 // Direct Tunnel Flags - 7.7.81
 type record DirectTunnelFlags {
- OCT1                       type_gtpc, 
+ OCT1                       type_gtpc,
  LIN2_BO_LAST               lengthf,
  BIT1                       dTI,
- BIT1                       gCSI,  
+ BIT1                       gCSI,
  BIT1                       eI,
  BIT5                       spare
 } with { variant "PRESENCE( type_gtpc = 'B6'O)";
@@ -2321,23 +2321,23 @@ type record DirectTunnelFlags {
 
 // Correlation ID - 7.7.82
 type record CorrelationID {
- OCT1                       type_gtpc, 
+ OCT1                       type_gtpc,
  LIN2_BO_LAST               lengthf,
- OCT1                       correlationIDValue                  
+ OCT1                       correlationIDValue
 } with { variant "PRESENCE( type_gtpc = 'B7'O)";
          variant (lengthf) "LENGTHTO(correlationIDValue)"; };
 
 // BearerControlMode - 7.7.83
 type record BearerControlMode {
- OCT1                       type_gtpc, 
+ OCT1                       type_gtpc,
  LIN2_BO_LAST               lengthf,
  OCT1                       bearerControlModeValue
 } with { variant "PRESENCE( type_gtpc = 'B8'O)";
          variant (lengthf) "LENGTHTO(bearerControlModeValue)"; };
-   
+
 // MBMS Flow ID - 7.7.84
 type record MBMS_FlowID {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  octetstring               mBMS_FlowIDValue
 } with { variant "PRESENCE( type_gtpc = 'B9'O)";
@@ -2345,9 +2345,9 @@ type record MBMS_FlowID {
 
 // MBMS IP Multicast Distribution - 7.7.85
 type record MBMS_IPMulticastDistribution {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
- OCT4                      commonTEID, 
+ OCT4                      commonTEID,
  GSNAddress                iPmulticastDistributionAddress,
  GSNAddress                iPmulticastSourceAddress,
  OCT1                      mBMS_HCIndicator
@@ -2364,7 +2364,7 @@ type record  GSNAddress {
 
 // MBMS Distribution Acknowledgement - 7.7.86
 type record MBMS_DistributionAcknowledgement {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  BIT2                      distributionIndication,
  BIT6                      spare
@@ -2374,17 +2374,17 @@ type record MBMS_DistributionAcknowledgement {
 // ReliableInterRATHandoverInfo - 7.7.87 - from 48.018 11.3.107
 type record ReliableInterRATHandoverInfo
 {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  BIT1                      reliableInterRATHandoverInfoIndicator,
- BIT7                      spare           
+ BIT7                      spare
 } with { variant "PRESENCE( type_gtpc = 'BC'O)";
          variant (lengthf) "LENGTHTO(reliableInterRATHandoverInfoIndicator,spare)"; };
 
 //7.7.88
 type record RFSP_Index
 {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  LIN2_BO_LAST              rFSPIndexValue (1..256)
 } with { variant "PRESENCE( type_gtpc = 'BD'O)";
@@ -2395,7 +2395,7 @@ type record of FullyQualifiedDomainName FullyQualifiedDomainName_List;
 
 type record FullyQualifiedDomainName
 {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  octetstring               fQDN_Value
 } with { variant "PRESENCE( type_gtpc = 'BE'O)";
@@ -2404,7 +2404,7 @@ type record FullyQualifiedDomainName
 //7.7.91
 type record EvolvedAllocationRetentionPriorityI
 {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  BIT1                      pVI,
  BIT1                      spare1,
@@ -2412,7 +2412,7 @@ type record EvolvedAllocationRetentionPriorityI
  BIT1                      pCI,
  BIT1                      spare2
 } with { variant "PRESENCE( type_gtpc = 'BF'O)";
-         variant (lengthf) "LENGTHTO(pVI,spare1,pL,pCI,spare2)"; 
+         variant (lengthf) "LENGTHTO(pVI,spare1,pL,pCI,spare2)";
          variant (pL) "FIELDLENGTH(4)";};
 
 //7.7.92
@@ -2420,106 +2420,106 @@ type record of EvolvedAllocationRetentionPriorityII EvolvedAllocationRetentionPr
 
 type record EvolvedAllocationRetentionPriorityII
 {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  BIT4                      nsapi,
- BIT4                      unused, 
- BIT1                      pVI, 
+ BIT4                      unused,
+ BIT1                      pVI,
  BIT1                      spare1,
  integer                   pL,
  BIT1                      pCI,
- BIT1                      spare2 
+ BIT1                      spare2
 } with { variant "PRESENCE( type_gtpc = 'C0'O)";
-         variant (lengthf) "LENGTHTO(nsapi,unused,pVI,spare1,pL,pCI,spare2)"; 
+         variant (lengthf) "LENGTHTO(nsapi,unused,pVI,spare1,pL,pCI,spare2)";
          variant (pL) "FIELDLENGTH(4)";};
 
 //7.7.93
 type record ExtendedCommonFlags
 {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  BIT1                      unauthenticatedIMSI,
- BIT1                      cCRSI, 
- BIT1                      cPSR, 
- BIT1                      retLoc, 
- BIT1                      vB, 
- BIT1                      pCRI, 
- BIT1                      bDWI, 
- BIT1                      uASI 
+ BIT1                      cCRSI,
+ BIT1                      cPSR,
+ BIT1                      retLoc,
+ BIT1                      vB,
+ BIT1                      pCRI,
+ BIT1                      bDWI,
+ BIT1                      uASI
 } with { variant "PRESENCE(type_gtpc = 'C1'O)";
          variant (lengthf) "LENGTHTO(unauthenticatedIMSI,cCRSI,cPSR,retLoc,vB,pCRI,bDWI,uASI)";};
-                  
-//7.7.94 
+
+//7.7.94
 type record UserCSGInformation
 {
- OCT1                      type_gtpc, 
- LIN2_BO_LAST              lengthf,  
+ OCT1                      type_gtpc,
+ LIN2_BO_LAST              lengthf,
  HEX1                      mccDigit1,
  HEX1                      mccDigit2,
  HEX1                      mccDigit3,
  HEX1                      mncDigit3,
  HEX1                      mncDigit1,
- HEX1                      mncDigit2, 
+ HEX1                      mncDigit2,
  BIT5                      spare1,
- bitstring                 cSG_ID length(27), // "The coding ... is the responsibility of the operator..."   
- BIT1                      cMI,               
+ bitstring                 cSG_ID length(27), // "The coding ... is the responsibility of the operator..."
+ BIT1                      cMI,
  BIT5                      spare2,
  integer                   accessMode (0..3)
 } with { variant "PRESENCE( type_gtpc = 'C2'O)";
          variant (lengthf) "LENGTHTO(mccDigit1,mccDigit2,mccDigit3,mncDigit3,
                             mncDigit1,mncDigit2,spare1,cSG_ID,
-                            cMI,spare2,accessMode)";                             
-         variant (spare1,cSG_ID) "FIELDORDER(msb)";                                              
+                            cMI,spare2,accessMode)";
+         variant (spare1,cSG_ID) "FIELDORDER(msb)";
          variant (cSG_ID) "FIELDLENGTH(27)";
-         variant (accessMode) "FIELDLENGTH(2)";         
+         variant (accessMode) "FIELDLENGTH(2)";
 };
 
-//7.7.95 
+//7.7.95
 type record CSGInfoReportingAction
 {
- OCT1                      type_gtpc, 
- LIN2_BO_LAST              lengthf,  
+ OCT1                      type_gtpc,
+ LIN2_BO_LAST              lengthf,
  BIT1                      uCCSG,
  BIT1                      uCSHC,
  BIT1                      uCUHC,
  BIT5                      spare
 } with { variant "PRESENCE( type_gtpc = 'C3'O)";
-         variant (lengthf) "LENGTHTO(uCCSG,uCSHC,uCUHC,spare)";         
+         variant (lengthf) "LENGTHTO(uCCSG,uCSHC,uCUHC,spare)";
 };
 
 //7.7.96
 type record CSG_Id
 {
- OCT1                      type_gtpc, 
- LIN2_BO_LAST              lengthf, 
+ OCT1                      type_gtpc,
+ LIN2_BO_LAST              lengthf,
  BIT5                      spare,
- bitstring                 cSG_ID length(27) // "The coding ... is the responsibility of the operator..."    
+ bitstring                 cSG_ID length(27) // "The coding ... is the responsibility of the operator..."
 } with { variant "PRESENCE(type_gtpc = 'C4'O)";
-         variant (lengthf) "LENGTHTO(spare,cSG_ID)";      
-         variant (spare,cSG_ID) "FIELDORDER(msb)";   
+         variant (lengthf) "LENGTHTO(spare,cSG_ID)";
+         variant (spare,cSG_ID) "FIELDORDER(msb)";
          variant (cSG_ID) "FIELDLENGTH(27)";
 };
 
 //7.7.97
 type record CSG_MembershipIndication
 {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  BIT1                      cMI_Value,
- BIT7                      spare 
+ BIT7                      spare
 } with { variant "PRESENCE(type_gtpc = 'C5'O)";
-         variant (lengthf) "LENGTHTO(cMI_Value,spare)";      
+         variant (lengthf) "LENGTHTO(cMI_Value,spare)";
 }
 
 //7.7.98
-type record APN_AMBR 
+type record APN_AMBR
 {
- OCT1                      type_gtpc, 
+ OCT1                      type_gtpc,
  LIN2_BO_LAST              lengthf,
  LIN4_BO_LAST              aPN_AMBR_Uplink,
  LIN4_BO_LAST              aPN_AMBR_Downlink
 } with { variant "PRESENCE(type_gtpc = 'C6'O)";
-         variant (lengthf) "LENGTHTO(aPN_AMBR_Uplink,aPN_AMBR_Downlink)";      
+         variant (lengthf) "LENGTHTO(aPN_AMBR_Uplink,aPN_AMBR_Downlink)";
 }
 
 //7.7.99
@@ -2596,7 +2596,7 @@ type record SignallingPriorityIndication_NSAPI {
    variant (lengthf) "LENGTHTO(nsapi, spare1, lapi, spare2, explicitly_specified)";
 }
 
-//7.7.105   
+//7.7.105
 type record Higher_Bitrates_Than_16Mbps_Flag {
   OCT1              type_gtpc,
   LIN2_BO_LAST      lengthf (1),
@@ -2652,7 +2652,7 @@ type record STN_SR {
   Digits          digits
 } with {
   variant "PRESENCE(type_gtpc = 'D1'O)";
-  variant (lengthf) "LENGTHTO(nanpi, digits)"; 
+  variant (lengthf) "LENGTHTO(nanpi, digits)";
 }
 
 type record of HEX1 Digits;
@@ -2675,7 +2675,7 @@ type record Extended_RANAP_Cause {
   octetstring     explicitly_specified optional
 } with {
   variant "PRESENCE(type_gtpc = 'D3'O)";
-  variant (lengthf) "LENGTHTO(extended_ranap_cause, explicitly_specified)";  
+  variant (lengthf) "LENGTHTO(extended_ranap_cause, explicitly_specified)";
   variant (extended_ranap_cause) "FIELDLENGTH(16), COMP(nosign), BYTEORDER(last)"
 }
 
@@ -2684,7 +2684,7 @@ type record ENodeB_ID {
   OCT1            type_gtpc,
   LIN2_BO_LAST    lengthf,
   OCT1            eNodeB_type,
-  ENodeB_IDs      eNodeB_ID 
+  ENodeB_IDs      eNodeB_ID
 } with {
   variant "PRESENCE(type_gtpc = 'D4'O)";
   variant (lengthf) "LENGTHTO(eNodeB_type, eNodeB_ID)";
@@ -2700,33 +2700,33 @@ type union ENodeB_IDs
 
 type record MacroENodeB_ID
 {
- HEX1                      mcc1,            
- HEX1                      mcc2,            
- HEX1                      mcc3,            
- HEX1                      mnc3,            
- HEX1                      mnc1,            
+ HEX1                      mcc1,
+ HEX1                      mcc2,
+ HEX1                      mcc3,
+ HEX1                      mnc3,
+ HEX1                      mnc1,
  HEX1                      mnc2,
  BIT4                      spare,
  bitstring                 macroENodeB_ID length(20),
  OCT2                      tac
 } with {
-  variant (spare,macroENodeB_ID) "FIELDORDER(msb)";                                              
+  variant (spare,macroENodeB_ID) "FIELDORDER(msb)";
   variant (macroENodeB_ID) "FIELDLENGTH(20)";
 }
 
 type record HomeENodeB_ID
 {
- HEX1                      mcc1,            
- HEX1                      mcc2,            
- HEX1                      mcc3,            
- HEX1                      mnc3,            
- HEX1                      mnc1,            
+ HEX1                      mcc1,
+ HEX1                      mcc2,
+ HEX1                      mcc3,
+ HEX1                      mnc3,
+ HEX1                      mnc1,
  HEX1                      mnc2,
  BIT4                      spare,
  bitstring                 homeENodeB_ID length(28),
  OCT2                      tac
 } with {
-  variant (spare,homeENodeB_ID) "FIELDORDER(msb)";                                              
+  variant (spare,homeENodeB_ID) "FIELDORDER(msb)";
   variant (homeENodeB_ID) "FIELDLENGTH(28)";
 }
 
@@ -2826,14 +2826,14 @@ const MessageType_gtpc versionNotSupported := '03'O;
 
 // 4 - 7: For GTP'
 
-// 8 - 15 for future use.  Shall not be sent. 
+// 8 - 15 for future use.  Shall not be sent.
 // If received, shall be treated as an Unknown message
 
 const MessageType_gtpc createPDPContextRequest := '10'O;
 const MessageType_gtpc createPDPContextResponse := '11'O;
 const MessageType_gtpc updatePDPContextRequest := '12'O;
 const MessageType_gtpc updatePDPContextResponse := '13'O;
-const MessageType_gtpc deletePDPContextRequest := '14'O; 
+const MessageType_gtpc deletePDPContextRequest := '14'O;
 const MessageType_gtpc deletePDPContextResponse := '15'O;
 const MessageType_gtpc initiatePDPContextActivationRequest := '16'O;
 const MessageType_gtpc initiatePDPContextActivationResponse := '17'O;
@@ -2849,17 +2849,17 @@ const MessageType_gtpc pduNotificationRejectRequest := '1D'O;
 const MessageType_gtpc pduNotificationRejectResponse := '1E'O;
 
 const MessageType_gtpc supportedExtHeadersNotification := '1F'O;
-const MessageType_gtpc sendRoutingInfoForGPRSRequest := '20'O; 
+const MessageType_gtpc sendRoutingInfoForGPRSRequest := '20'O;
 const MessageType_gtpc sendRoutingInfoForGPRSResponse := '21'O;
 const MessageType_gtpc failureReportRequest := '22'O;
 const MessageType_gtpc failureReportResponse := '23'O;
 const MessageType_gtpc noteMS_GPRSPresentRequest := '24'O;
 const MessageType_gtpc noteMS_GPRSPresentResponse := '25'O;
 
-// 38 - 47 for future use.  Shall not be sent. 
+// 38 - 47 for future use.  Shall not be sent.
 // If received, shall be treated as an Unknown message
 
-const MessageType_gtpc identificationRequest := '30'O;  
+const MessageType_gtpc identificationRequest := '30'O;
 const MessageType_gtpc identificationResponse := '31'O;
 const MessageType_gtpc sgsnContextRequest := '32'O;
 const MessageType_gtpc sgsnContextResponse := '33'O;
@@ -2871,7 +2871,7 @@ const MessageType_gtpc relocationCancelRequest := '38'O;
 const MessageType_gtpc relocationCancelResponse := '39'O;
 const MessageType_gtpc forwardSRNSContext := '3A'O;
 const MessageType_gtpc forwardRelocationCompleteAcknowledge := '3B'O;
-const MessageType_gtpc forwardSRNSContextAcknowledge := '3C'O; 
+const MessageType_gtpc forwardSRNSContextAcknowledge := '3C'O;
 const MessageType_gtpc ueRegistrationQueryRequest := '3D'O;
 const MessageType_gtpc ueRegistrationQueryResponse := '3E'O;
 
@@ -2894,7 +2894,7 @@ const MessageType_gtpc updateMBMSContextResponse := '67'O;
 const MessageType_gtpc deleteMBMSContextRequest := '68'O;
 const MessageType_gtpc deleteMBMSContextResponse := '69'O;
 
-// 106-111 for future use. Shall not be sent. If received, shall be treated as 
+// 106-111 for future use. Shall not be sent. If received, shall be treated as
 // an Unknown message
 
 const MessageType_gtpc mBMSRegistrationRequest :=  '70'O;
@@ -2907,21 +2907,21 @@ const MessageType_gtpc mBMSSessionStartResponse := '75'O;
 const MessageType_gtpc mBMSSessionStopRequest :=  '76'O;
 const MessageType_gtpc mBMSSessionStopResponse := '77'O;
 
-const MessageType_gtpc mBMSSessionUpdateRequest := '78'O;           
+const MessageType_gtpc mBMSSessionUpdateRequest := '78'O;
 const MessageType_gtpc mBMSSessionUpdateResponse := '79'O;
 
-// 122 - 127 for future use. Shall not be sent. 
+// 122 - 127 for future use. Shall not be sent.
 // If received, shall be treated as an Unknown message
 
 const MessageType_gtpc mS_InfoChangeNotificationRequest := '80'O;
-const MessageType_gtpc mS_InfoChangeNotificationResponse := '81'O                      
+const MessageType_gtpc mS_InfoChangeNotificationResponse := '81'O
 
-// 130 - 239 for future use. Shall not be sent. 
+// 130 - 239 for future use. Shall not be sent.
 // If received, shall be treated as an Unknown message
 
 // 240 - 241 not used in GTP-C
 
-// 242 - 254 for future use. Shall not be sent. 
+// 242 - 254 for future use. Shall not be sent.
 // If received, shall be treated as an Unknown message
 
 // 255      not used in GTP-C
@@ -2949,44 +2949,44 @@ type record  VersionNotSupported {
 
 // Supported Extension Headers Notification  - 7.2.4
 type record SupportedExtensionHeadersNotification   {
- ExtensionHeaderTypeList_gtpc     extensionHeaderTypeList  
+ ExtensionHeaderTypeList_gtpc     extensionHeaderTypeList
 } with {variant ""};
 
 // Create PDP Context Request - 7.3.1
 type record CreatePDPContextRequest   {
- IMSI_gtpc                       imsi optional,        
- RoutingAreaIdentity             rai optional,        
+ IMSI_gtpc                       imsi optional,
+ RoutingAreaIdentity             rai optional,
  Recovery_gtpc                   recovery optional,
- SelectionMode                   selectionMode optional,     
- TeidDataI                       teidDataI,      
- TeidControlPlane                teidControlPlane optional,    
- NSAPI_GTPC                      nsapi,       
- NSAPI_GTPC                      linked_nsapi optional,      
- ChargingCharacteristics_GTPC    charging_char optional,       
+ SelectionMode                   selectionMode optional,
+ TeidDataI                       teidDataI,
+ TeidControlPlane                teidControlPlane optional,
+ NSAPI_GTPC                      nsapi,
+ NSAPI_GTPC                      linked_nsapi optional,
+ ChargingCharacteristics_GTPC    charging_char optional,
  TraceRef                        trace_ref optional,
  GTP_TraceType                   trace_type optional,
- EndUserAddress                  endUserAddress optional,    
- AccessPointName                 accessPointName optional,    
- ProtConfigOptions               protConfigOptions optional,    
- GSN_Address_GTPC                sgsn_addr_signalling,     
- GSN_Address_GTPC                sgsn_addr_traffic,     
- MSISDN                          msisdn optional,     
- QualityOfServiceProfile         qualityOfServiceProfile,    
- TrafficFlowTemplate             tft optional,             
+ EndUserAddress                  endUserAddress optional,
+ AccessPointName                 accessPointName optional,
+ ProtConfigOptions               protConfigOptions optional,
+ GSN_Address_GTPC                sgsn_addr_signalling,
+ GSN_Address_GTPC                sgsn_addr_traffic,
+ MSISDN                          msisdn optional,
+ QualityOfServiceProfile         qualityOfServiceProfile,
+ TrafficFlowTemplate             tft optional,
  GTP_TriggerID                   triggerId optional,
  OMCIdentity                     omcId optional,
- CommonFlags                     commonFlags  optional,   
+ CommonFlags                     commonFlags  optional,
  APN_Restriction                 aPN_Restriction optional,
- RATType                         ratType optional, 
+ RATType                         ratType optional,
  UserLocationInformation         userLocationInformation optional,
  MS_TimeZone                     mS_TimeZone optional,
- IMEISV_gtpc                     imeisv optional,            
+ IMEISV_gtpc                     imeisv optional,
  CamelChargingInformationContainer camelChargingInformationContainer optional,
  AdditionalTraceInfo             additionalTraceInfo optional,
  CorrelationID                   correlationID optional,
  EvolvedAllocationRetentionPriorityI    evolvedAllocationRetentionPriorityI optional,
  ExtendedCommonFlags                    extendedCommonFlags optional,
- UserCSGInformation                     userCSGInformation optional, 
+ UserCSGInformation                     userCSGInformation optional,
  APN_AMBR                        aPN_AMBR optional,
  SignallingPriorityIndication    signallingPriorityIndication optional,
  CN_OperatorSelectionEntity      cN_OperatorSelectionEntity optional,
@@ -2998,29 +2998,29 @@ type record CreatePDPContextResponse {
  Cause_gtpc                      cause,
  ReorderingRequired              reorderingRequired optional,
  Recovery_gtpc                   recovery optional,
- TeidDataI                       teidDataI optional,   
- TeidControlPlane                teidControlPlane optional, 
- NSAPI_GTPC                      nsapi optional,    
- ChargingID                      chargingID optional,   
- EndUserAddress                  endUserAddress optional,  
- ProtConfigOptions               protConfigOptions optional,  
- GSN_Address_GTPC                ggsn_addr_controlPlane optional, 
- GSN_Address_GTPC                ggsn_addr_traffic optional,  
+ TeidDataI                       teidDataI optional,
+ TeidControlPlane                teidControlPlane optional,
+ NSAPI_GTPC                      nsapi optional,
+ ChargingID                      chargingID optional,
+ EndUserAddress                  endUserAddress optional,
+ ProtConfigOptions               protConfigOptions optional,
+ GSN_Address_GTPC                ggsn_addr_controlPlane optional,
+ GSN_Address_GTPC                ggsn_addr_traffic optional,
  GSN_Address_GTPC                alt_ggsn_addr_controlPane optional,
  GSN_Address_GTPC                alt_ggsn_addr_traffic optional,
- QualityOfServiceProfile         qualityOfServiceProfile optional,   
- CommonFlags                     commonFlags  optional,  
+ QualityOfServiceProfile         qualityOfServiceProfile optional,
+ CommonFlags                     commonFlags  optional,
  APN_Restriction                 aPN_Restriction optional,
- MS_InfoChangeReportingAction    mS_InfoChangeReportingAction optional, 
- BearerControlMode               bearerControlMode optional, 
+ MS_InfoChangeReportingAction    mS_InfoChangeReportingAction optional,
+ BearerControlMode               bearerControlMode optional,
  EvolvedAllocationRetentionPriorityI    evolvedAllocationRetentionPriorityI optional,
  ExtendedCommonFlags             extendedCommonFlag optional,
  CSGInfoReportingAction          csg_information_reporting_action optional,
  APN_AMBR                        aPN_AMBR optional,
  GGSN_BackOffTime                gGSN_BackOffTime optional,
- PrivateExtension_gtpc_List      private_extension_gtpc optional 
+ PrivateExtension_gtpc_List      private_extension_gtpc optional
 };
-  
+
 
 // Update PDP Context Request -   7.3.3
 type union UpdatePDPContextRequest {
@@ -3031,21 +3031,21 @@ type union UpdatePDPContextRequest {
 
 //from SGSN
 type record UpdatePDPContextRequestSGSN   {
- IMSI_gtpc                       imsi optional,          
+ IMSI_gtpc                       imsi optional,
  RoutingAreaIdentity             rai optional,
  Recovery_gtpc                   recovery optional,
- TeidDataI                       teidDataI,     
+ TeidDataI                       teidDataI,
  TeidControlPlane                teidControlPlane optional,
- NSAPI_GTPC                      nsapi, 
+ NSAPI_GTPC                      nsapi,
  TraceRef                        trace_ref optional,
  GTP_TraceType                   trace_type optional,
- ProtConfigOptions               protConfigOptions optional, 
- GSN_Address_GTPC                sgsn_addr_controlPlane, 
+ ProtConfigOptions               protConfigOptions optional,
+ GSN_Address_GTPC                sgsn_addr_controlPlane,
  GSN_Address_GTPC                sgsn_addr_traffic,
  GSN_Address_GTPC                alt_ggsn_addr_controlPane optional,
  GSN_Address_GTPC                alt_ggsn_addr_traffic optional,
  QualityOfServiceProfile         qualityOfServiceProfile,
- TrafficFlowTemplate             tft optional, 
+ TrafficFlowTemplate             tft optional,
  GTP_TriggerID                   triggerId optional,
  OMCIdentity                     omcId optional,
  CommonFlags                     commonFlags  optional,
@@ -3053,54 +3053,54 @@ type record UpdatePDPContextRequestSGSN   {
  UserLocationInformation         userLocationInformation optional,
  MS_TimeZone                     mS_TimeZone optional,
  AdditionalTraceInfo             additionalTraceInfo optional,
- DirectTunnelFlags               directTunnelFlags optional, 
- EvolvedAllocationRetentionPriorityI    evolvedAllocationRetentionPriorityI optional, 
- ExtendedCommonFlags             extendedCommonFlags optional, 
- UserCSGInformation              userCSGInformation optional, 
+ DirectTunnelFlags               directTunnelFlags optional,
+ EvolvedAllocationRetentionPriorityI    evolvedAllocationRetentionPriorityI optional,
+ ExtendedCommonFlags             extendedCommonFlags optional,
+ UserCSGInformation              userCSGInformation optional,
  APN_AMBR                        aPN_AMBR optional,
  SignallingPriorityIndication    signallingPriorityIndication optional,
  CN_OperatorSelectionEntity      cN_OperatorSelectionEntity optional,
  PrivateExtension_gtpc_List      private_extension_gtpc optional
-}; 
+};
 
 //from GGSN
 type record UpdatePDPContextRequestGGSN   {
- IMSI_gtpc                       imsi optional,      
+ IMSI_gtpc                       imsi optional,
  Recovery_gtpc                   recovery optional,
  NSAPI_GTPC                      nsapi,
- EndUserAddress                  endUserAddress optional, 
+ EndUserAddress                  endUserAddress optional,
  ProtConfigOptions               protConfigOptions optional,
  QualityOfServiceProfile         qualityOfServiceProfile optional,
- TrafficFlowTemplate             tft optional,  
+ TrafficFlowTemplate             tft optional,
  CommonFlags                     commonFlags optional,
  APN_Restriction                 aPN_Restriction optional,
- MS_InfoChangeReportingAction    mS_InfoChangeReportingAction optional,   
+ MS_InfoChangeReportingAction    mS_InfoChangeReportingAction optional,
  DirectTunnelFlags               directTunnelFlags optional,
- BearerControlMode               bearerControlMode optional, 
- EvolvedAllocationRetentionPriorityI    evolvedAllocationRetentionPriorityI optional, 
- ExtendedCommonFlags             extendedCommonFlags optional, 
- CSGInfoReportingAction                 cSGInfoReportingAction optional, 
- APN_AMBR                        aPN_AMBR optional, 
+ BearerControlMode               bearerControlMode optional,
+ EvolvedAllocationRetentionPriorityI    evolvedAllocationRetentionPriorityI optional,
+ ExtendedCommonFlags             extendedCommonFlags optional,
+ CSGInfoReportingAction                 cSGInfoReportingAction optional,
+ APN_AMBR                        aPN_AMBR optional,
  PrivateExtension_gtpc_List      private_extension_gtpc optional
 };
 
 //from CGW
 type record UpdatePDPContextRequestCGW   {
- IMSI_gtpc                       imsi optional,      
+ IMSI_gtpc                       imsi optional,
  Recovery_gtpc                   recovery optional,
  NSAPI_GTPC                      nsapi,
- EndUserAddress                  endUserAddress optional, 
+ EndUserAddress                  endUserAddress optional,
  ProtConfigOptions               protConfigOptions optional,
  QualityOfServiceProfile         qualityOfServiceProfile optional,
- TrafficFlowTemplate             tft optional,  
+ TrafficFlowTemplate             tft optional,
  CommonFlags                     commonFlags optional,
  APN_Restriction                 aPN_Restriction optional,
- MS_InfoChangeReportingAction    mS_InfoChangeReportingAction optional,  
+ MS_InfoChangeReportingAction    mS_InfoChangeReportingAction optional,
  DirectTunnelFlags               directTunnelFlags optional,
  BearerControlMode               bearerControlMode optional,
  EvolvedAllocationRetentionPriorityI    evolvedAllocationRetentionPriorityI optional,
- CSGInfoReportingAction                 cSGInfoReportingAction optional, 
- APN_AMBR                        aPN_AMBR optional,  
+ CSGInfoReportingAction                 cSGInfoReportingAction optional,
+ APN_AMBR                        aPN_AMBR optional,
  PrivateExtension_gtpc_List      private_extension_gtpc optional
 };
 
@@ -3108,37 +3108,14 @@ type record UpdatePDPContextRequestCGW   {
 type union UpdatePDPContextResponse {
  UpdatePDPContextResponseSGSN updatePDPContextResponseSGSN,
  UpdatePDPContextResponseGGSN updatePDPContextResponseGGSN,
- UpdatePDPContextResponseCGW  updatePDPContextResponseCGW 
+ UpdatePDPContextResponseCGW  updatePDPContextResponseCGW
 };
 
 //from GGSN
 type record  UpdatePDPContextResponseGGSN    {
  Cause_gtpc                      cause,
  Recovery_gtpc                   recovery optional,
- TeidDataI                       teidDataI optional, 
- TeidControlPlane                teidControlPlane optional,
- ChargingID                      chargingID optional,
- ProtConfigOptions               protConfigOptions optional,
- GSN_Address_GTPC                ggsn_addr_controlPlane optional,
- GSN_Address_GTPC                ggsn_addr_traffic optional,
- GSN_Address_GTPC                alt_ggsn_addr_controlPane optional,
- GSN_Address_GTPC                alt_ggsn_addr_traffic optional,
- QualityOfServiceProfile         qualityOfServiceProfile optional,  
- CommonFlags                     commonFlags optional,
- APN_Restriction                 aPN_Restriction optional, 
- MS_InfoChangeReportingAction    mS_InfoChangeReportingAction optional, 
- BearerControlMode               bearerControlMode optional, 
- EvolvedAllocationRetentionPriorityI    evolvedAllocationRetentionPriorityI optional,
- CSGInfoReportingAction          csg_information_reporting_action optional, 
- APN_AMBR                        aPN_AMBR optional,   
- PrivateExtension_gtpc_List      private_extension_gtpc optional 
-};
-
-//from CGW
-type record  UpdatePDPContextResponseCGW    {
- Cause_gtpc                      cause,
- Recovery_gtpc                   recovery optional,
- TeidDataI                       teidDataI optional, 
+ TeidDataI                       teidDataI optional,
  TeidControlPlane                teidControlPlane optional,
  ChargingID                      chargingID optional,
  ProtConfigOptions               protConfigOptions optional,
@@ -3148,14 +3125,37 @@ type record  UpdatePDPContextResponseCGW    {
  GSN_Address_GTPC                alt_ggsn_addr_traffic optional,
  QualityOfServiceProfile         qualityOfServiceProfile optional,
  CommonFlags                     commonFlags optional,
- APN_Restriction                 aPN_Restriction optional, 
+ APN_Restriction                 aPN_Restriction optional,
  MS_InfoChangeReportingAction    mS_InfoChangeReportingAction optional,
- BearerControlMode               bearerControlMode optional, 
- EvolvedAllocationRetentionPriorityI    evolvedAllocationRetentionPriorityI optional,  
- APN_AMBR                        aPN_AMBR optional,  
+ BearerControlMode               bearerControlMode optional,
+ EvolvedAllocationRetentionPriorityI    evolvedAllocationRetentionPriorityI optional,
+ CSGInfoReportingAction          csg_information_reporting_action optional,
+ APN_AMBR                        aPN_AMBR optional,
+ PrivateExtension_gtpc_List      private_extension_gtpc optional
+};
+
+//from CGW
+type record  UpdatePDPContextResponseCGW    {
+ Cause_gtpc                      cause,
+ Recovery_gtpc                   recovery optional,
+ TeidDataI                       teidDataI optional,
+ TeidControlPlane                teidControlPlane optional,
+ ChargingID                      chargingID optional,
+ ProtConfigOptions               protConfigOptions optional,
+ GSN_Address_GTPC                ggsn_addr_controlPlane optional,
+ GSN_Address_GTPC                ggsn_addr_traffic optional,
+ GSN_Address_GTPC                alt_ggsn_addr_controlPane optional,
+ GSN_Address_GTPC                alt_ggsn_addr_traffic optional,
+ QualityOfServiceProfile         qualityOfServiceProfile optional,
+ CommonFlags                     commonFlags optional,
+ APN_Restriction                 aPN_Restriction optional,
+ MS_InfoChangeReportingAction    mS_InfoChangeReportingAction optional,
+ BearerControlMode               bearerControlMode optional,
+ EvolvedAllocationRetentionPriorityI    evolvedAllocationRetentionPriorityI optional,
+ APN_AMBR                        aPN_AMBR optional,
  ChargingGatewayAddress          chargingGatewayAddress optional,
- ChargingGatewayAddress          alt_chargingGatewayAddress optional,  
- PrivateExtension_gtpc_List      private_extension_gtpc optional 
+ ChargingGatewayAddress          alt_chargingGatewayAddress optional,
+ PrivateExtension_gtpc_List      private_extension_gtpc optional
 };
 
 //from SGSN
@@ -3165,24 +3165,24 @@ type record UpdatePDPContextResponseSGSN    {
  TeidDataI                       teidDataI optional,
  ProtConfigOptions               protConfigOptions optional,
  GSN_Address_GTPC                sgsn_addr_traffic optional,
- QualityOfServiceProfile         qualityOfServiceProfile optional, 
- UserLocationInformation         userLocationInformation optional,  
- MS_TimeZone                     mS_TimeZone optional, 
- DirectTunnelFlags               directTunnelFlags optional, 
- EvolvedAllocationRetentionPriorityI    evolvedAllocationRetentionPriorityI optional, 
- APN_AMBR                        aPN_AMBR optional,   
+ QualityOfServiceProfile         qualityOfServiceProfile optional,
+ UserLocationInformation         userLocationInformation optional,
+ MS_TimeZone                     mS_TimeZone optional,
+ DirectTunnelFlags               directTunnelFlags optional,
+ EvolvedAllocationRetentionPriorityI    evolvedAllocationRetentionPriorityI optional,
+ APN_AMBR                        aPN_AMBR optional,
  PrivateExtension_gtpc_List      private_extension_gtpc optional
 };
 
 
-// Delete PDP Context Request   -   7.3.5 
+// Delete PDP Context Request   -   7.3.5
 type record DeletePDPContextRequest   {
  Cause_gtpc                      cause optional,
  TearDownInd                     tearDownIndicator optional,
- NSAPI_GTPC                      nsapi,          
- ProtConfigOptions               protConfigOptions optional,     
- UserLocationInformation         userLocationInformation optional,  
- MS_TimeZone                     mS_TimeZone optional, 
+ NSAPI_GTPC                      nsapi,
+ ProtConfigOptions               protConfigOptions optional,
+ UserLocationInformation         userLocationInformation optional,
+ MS_TimeZone                     mS_TimeZone optional,
  ExtendedCommonFlags             extendedCommonFlags optional,
  ULI_Timestamp                   uLI_Timestamp optional,
  PrivateExtension_gtpc_List      private_extension_gtpc optional
@@ -3197,8 +3197,8 @@ type record DeletePDPContextResponse    {
  ULI_Timestamp                   uLI_Timestamp optional,
  PrivateExtension_gtpc_List      private_extension_gtpc optional
 };
- 
-// PDU Notification Request  -   7.3.8 
+
+// PDU Notification Request  -   7.3.8
 type record PDU_NotificationRequest     {
  IMSI_gtpc                       imsi,
  TeidControlPlane                teidControlPlane,
@@ -3213,7 +3213,7 @@ type record PDU_NotificationRequest     {
 type record PDU_NotificationResponse   {
  Cause_gtpc                      cause,
  PrivateExtension_gtpc_List      private_extension_gtpc optional
-} 
+}
 
 // PDU  Notification Reject Request  -   7.3.10
 type record PDU_NotificationRejectRequest    {
@@ -3236,10 +3236,10 @@ type record InitiatePDPContextActivationRequest
 {
  NSAPI_GTPC                      linkedNSAPI,
  ProtConfigOptions               protConfigOptions optional,
- QualityOfServiceProfile         qualityOfServiceProfile, 
+ QualityOfServiceProfile         qualityOfServiceProfile,
  TrafficFlowTemplate             tft optional,
- CorrelationID                   correlationID,  
- EvolvedAllocationRetentionPriorityI    evolvedAllocationRetentionPriorityI optional,  
+ CorrelationID                   correlationID,
+ EvolvedAllocationRetentionPriorityI    evolvedAllocationRetentionPriorityI optional,
  PrivateExtension_gtpc_List      private_extension_gtpc optional
 };
 
@@ -3280,14 +3280,14 @@ type record FailureReportResponse    {
  PrivateExtension_gtpc_List      private_extension_gtpc optional
 };
 
-// Note MS GPRS Present Request - 7.4.5 
+// Note MS GPRS Present Request - 7.4.5
 type record NoteMS_GPRSPresentRequest    {
  IMSI_gtpc                       imsi,
  GSN_Address_GTPC                gsn_Address,
  PrivateExtension_gtpc_List      private_extension_gtpc optional
 }
 
-// Note MS GPRS Present Response - 7.4.6 
+// Note MS GPRS Present Response - 7.4.6
 type record NoteMS_GPRSPresentResponse    {
   Cause_gtpc                     cause,
   PrivateExtension_gtpc_List     private_extension_gtpc optional
@@ -3329,7 +3329,7 @@ type record SGSN_ContextRequest   {
  GSN_Address_GTPC                sgsn_addr_controlPlane,
  GSN_Address_GTPC                alternative_sgsn_addr_controlPlane optional,
  SGSN_Number                     sGSN_Number optional,
- RATType                         ratType optional,  
+ RATType                         ratType optional,
  HopCounter_gtpc                 hopCounter optional,
  PrivateExtension_gtpc_List      private_extension_gtpc optional
 };
@@ -3348,13 +3348,13 @@ type record SGSN_ContextRequest   {
  MM_Context                      mm_Context optional,
  PDP_Context_GTPC_List           pdp_Context optional,
  GSN_Address_GTPC                sgsn_addr_controlPlane optional,
- PDPContextPriorization          pdpContextPriorization optional, 
- RadioPriorityLCS                radioPriority_LCS optional, 
- MBMS_UE_Context_List            mBMS_UE_Context optional,   
+ PDPContextPriorization          pdpContextPriorization optional,
+ RadioPriorityLCS                radioPriority_LCS optional,
+ MBMS_UE_Context_List            mBMS_UE_Context optional,
  RFSP_Index                      subscribedRFSP_Index optional,
- RFSP_Index                      rFSP_IndexInUse optional, 
- FullyQualifiedDomainName_List   colocatedGGSN_PGW_FQDN optional,  
- EvolvedAllocationRetentionPriorityII_List   evolvedAllocationRetentionPriorityII optional, 
+ RFSP_Index                      rFSP_IndexInUse optional,
+ FullyQualifiedDomainName_List   colocatedGGSN_PGW_FQDN optional,
+ EvolvedAllocationRetentionPriorityII_List   evolvedAllocationRetentionPriorityII optional,
  ExtendedCommonFlags             extendedCommonFlags optional,
  UE_Network_Capability           ue_network_capability optional,
  UE_AMBR                         ue_ambr optional,
@@ -3366,7 +3366,7 @@ type record SGSN_ContextRequest   {
  UE_UsageType                    uE_UsageType optional,
  ExtendedCommonFlagsII           extendedCommonFlagsII optional,
  PrivateExtension_gtpc_List      private_extension_gtpc optional
-}; 
+};
 
 
 // SGSN Context Acknowledge - 7.5.5
@@ -3384,7 +3384,7 @@ type record ForwardRelocationRequest {
  IMSI_gtpc                       imsi optional,
  TeidControlPlane                teidControlPlane,
  RANAPCause                      ranapCause,
- PacketFlowID_List               packetFlowID optional,  
+ PacketFlowID_List               packetFlowID optional,
  ChargingCharacteristics_List_GTPC charging_char optional,
  MM_Context                      mmContext,
  PDP_Context_GTPC_List           pdpContext optional,
@@ -3398,18 +3398,18 @@ type record ForwardRelocationRequest {
  Cell_Identification_gtpc        cell_Identification optional,
  BSSGP_Cause_gtpc                bSSGP_Cause_gtpc optional,
  PS_HandoverXIDParameters_List   pS_HandoverXIDParameters optional,
- DirectTunnelFlags               directTunnelFlags optional, 
+ DirectTunnelFlags               directTunnelFlags optional,
  ReliableInterRATHandoverInfo    reliableInterRATHandoverInfo optional,
  RFSP_Index                      subscribedRFSP_Index optional,
  RFSP_Index                      rFSP_IndexInUse optional,
  FullyQualifiedDomainName_List   colocatedGGSN_PGW_FQDN optional,
  EvolvedAllocationRetentionPriorityII_List    evolvedAllocationRetentionPriorityII optional,
  ExtendedCommonFlags             extendedCommonFlags optional,
- CSG_Id                          cSG_Id optional, 
+ CSG_Id                          cSG_Id optional,
  CSG_MembershipIndication        cSG_MembershipIndication optional,
  UE_Network_Capability           ue_network_capability optional,
  UE_AMBR                         ue_ambr optional,
- APN_AMBR_NSAPI                  apn_ambr_nsapi optional,              
+ APN_AMBR_NSAPI                  apn_ambr_nsapi optional,
  SignallingPriorityIndication_NSAPI signallingPriorityIndication_nsapi optional,
  Higher_Bitrates_Than_16Mbps_Flag   higher_bitrates_than_16mbps_flag optional,
  SRVCC_MM_Context                srvcc_mm_context optional,
@@ -3434,7 +3434,7 @@ type record ForwardRelocationResponse {
  TeidDataII_List                 teidDataII optional,
  RANAPCause                      ranapCause optional,
  GSN_Address_GTPC                sgsn_addr_controlPlane optional,
- GSN_Address_GTPC                sgsn_addr_traffic optional,  
+ GSN_Address_GTPC                sgsn_addr_traffic optional,
  UTRANTransparentContainer       transpContainer optional,
  RABSetupInformation_List        rabSetupInfo optional,
  AdditionalRABSetupInformation_List additionalRABSetupInfo optional,
@@ -3442,7 +3442,7 @@ type record ForwardRelocationResponse {
  BSS_Container                   bSS_Container optional,
  BSSGP_Cause_gtpc                bSSGP_Cause_gtpc optional,
  ListOfSetupPFCs_gtpc            listOfSetupPFCs_gtpc optional,
- Extended_RANAP_Cause            extended_ranap_cause optional,   
+ Extended_RANAP_Cause            extended_ranap_cause optional,
  PrivateExtension_gtpc_List      private_extension_gtpc optional
 };
 
@@ -3513,7 +3513,7 @@ type record MBMSNotificationRequest
 {
  IMSI_gtpc                          imsi,
  TeidControlPlane                   teidControlPlane,
- NSAPI_GTPC                         nsapi,          
+ NSAPI_GTPC                         nsapi,
  EndUserAddress                     endUserAddress,
  AccessPointName                    accessPointName,
  GSN_Address_GTPC                   ggsn_addr_controlPlane,
@@ -3533,10 +3533,10 @@ type record MBMSNotificationRejectRequest
 {
  Cause_gtpc                         cause,
  TeidControlPlane                   teidControlPlane,
- NSAPI_GTPC                         nsapi,          
+ NSAPI_GTPC                         nsapi,
  EndUserAddress                     endUserAddress,
  AccessPointName                    accessPointName,
- GSN_Address_GTPC                   sgsn_addr_controlPlane optional, 
+ GSN_Address_GTPC                   sgsn_addr_controlPlane optional,
  PrivateExtension_gtpc_List         private_extension_gtpc optional
 };
 
@@ -3553,20 +3553,20 @@ type record CreateMBMSContextRequest
  IMSI_gtpc                       imsi optional,
  RoutingAreaIdentity             rai,
  Recovery_gtpc                   recovery optional,
- SelectionMode                   selectionMode optional,     
+ SelectionMode                   selectionMode optional,
  TeidControlPlane                teidControlPlane optional,
  TraceRef                        trace_ref optional,
  GTP_TraceType                   trace_type optional,
  EndUserAddress                  endUserAddress,
  AccessPointName                 accessPointName,
  GSN_Address_GTPC                sGSNAddressForSignalling,
- MSISDN                          msisdn optional,     
+ MSISDN                          msisdn optional,
  GTP_TriggerID                   triggerId optional,
  OMCIdentity                     omcId optional,
  RATType                         ratType optional,
  UserLocationInformation         userLocationInformation optional,
  MS_TimeZone                     mS_TimeZone optional,
- IMEISV_gtpc                     imeisv optional,            
+ IMEISV_gtpc                     imeisv optional,
  MBMS_ProtocolConfigurationOptions  mBMS_ProtocolConfigurationOptions optional,
  AdditionalTraceInfo             additionalTraceInfo optional,
  Enhanced_NSAPI                  enhanced_NSAPI,
@@ -3582,10 +3582,10 @@ type record CreateMBMSContextResponse
  TeidControlPlane                teidControlPlane optional,
  ChargingID                      chargingID optional,
  GSN_Address_GTPC                ggsn_addr_controlPlane optional,
- GSN_Address_GTPC                alternative_ggsn_addr_controlPlane optional, 
+ GSN_Address_GTPC                alternative_ggsn_addr_controlPlane optional,
  MBMS_ProtocolConfigurationOptions  mBMS_ProtocolConfigurationOptions optional,
- ChargingGatewayAddress          chargingGatewayAddress optional,  
- ChargingGatewayAddress          alt_chargingGatewayAddress optional,  
+ ChargingGatewayAddress          chargingGatewayAddress optional,
+ ChargingGatewayAddress          alt_chargingGatewayAddress optional,
  PrivateExtension_gtpc_List      private_extension_gtpc optional
 };
 
@@ -3659,10 +3659,10 @@ type record MBMSRegistrationRequest_gtpc
 type record MBMSRegistrationResponse_gtpc
 {
  Cause_gtpc                      cause,
- TeidControlPlane                teidControlPlane optional, 
- GSN_Address_GTPC                ggsn_addr_controlPlane optional, 
+ TeidControlPlane                teidControlPlane optional,
+ GSN_Address_GTPC                ggsn_addr_controlPlane optional,
  TMGI_gtpc                       tMGI optional,
- RequiredMBMS_BearerCapabilities reqMBMS_BearerCapabilities optional, 
+ RequiredMBMS_BearerCapabilities reqMBMS_BearerCapabilities optional,
  PrivateExtension_gtpc_List      private_extension_gtpc optional
 };
 
@@ -3672,7 +3672,7 @@ type record MBMSDeRegistrationRequest
  EndUserAddress                  endUserAddress,
  AccessPointName                 accessPointName,
  PrivateExtension_gtpc_List      private_extension_gtpc optional
-} 
+}
 
 // MBMS De-Registration Response - 7.5A.2.4
 type record MBMSDeRegistrationResponse
@@ -3690,7 +3690,7 @@ type record MBMSSessionStartRequest
  EndUserAddress                  endUserAddress,
  AccessPointName                 accessPointName,
  GSN_Address_GTPC                ggsn_addr_controlPlane optional,
- GSN_Address_GTPC                alternative_ggsn_addr_controlPlane optional, 
+ GSN_Address_GTPC                alternative_ggsn_addr_controlPlane optional,
  QualityOfServiceProfile         qualityOfServiceProfile,
  CommonFlags                     commonFlags,
  TMGI_gtpc                       tMGI,
@@ -3729,7 +3729,7 @@ type record MBMSSessionStopRequest
 };
 
 // MBMS Session Stop Response - 7.5A.2.8
-type record MBMSSessionStopResponse_gtpc 
+type record MBMSSessionStopResponse_gtpc
 {
  Cause_gtpc                      cause,
  PrivateExtension_gtpc_List      private_extension_gtpc optional
@@ -3740,16 +3740,16 @@ type record MBMSSessionUpdateRequest
 {
  TeidControlPlane                teidControlPlane optional,
  EndUserAddress                  endUserAddress,
- AccessPointName                 accessPointName, 
- GSN_Address_GTPC                ggsn_addr_controlPlane optional,  
- TMGI_gtpc                       tMGI, 
- MBMS_ServiceArea                mBMS_ServiceArea, 
+ AccessPointName                 accessPointName,
+ GSN_Address_GTPC                ggsn_addr_controlPlane optional,
+ TMGI_gtpc                       tMGI,
+ MBMS_ServiceArea                mBMS_ServiceArea,
  MBMS_SessionIdentifier          mBMS_SessionIdentifier optional,
- MBMS_SessionDuration            mBMS_SessionDuration, 
+ MBMS_SessionDuration            mBMS_SessionDuration,
  MBMS_SessionRepetitionNumber    mBMS_SessionRepetitionNumber optional,
  MBMS_FlowID                     mBMS_FlowID optional,
- PrivateExtension_gtpc_List      private_extension_gtpc optional  
-};                     
+ PrivateExtension_gtpc_List      private_extension_gtpc optional
+};
 
 // MBMS Session Update Response - 7.5A.2.10
 type record MBMSSessionUpdateResponse
@@ -3760,7 +3760,7 @@ type record MBMSSessionUpdateResponse
  GSN_Address_GTPC                sgsn_addr_DataI  optional,
  GSN_Address_GTPC                sgsn_addr_controlPlane optional,
  PrivateExtension_gtpc_List      private_extension_gtpc optional
-};                     
+};
 
 // MS Info Change Notification Request 7.5B.1.1
 type record MS_InfoChangeNotificationRequest
@@ -3770,21 +3770,21 @@ type record MS_InfoChangeNotificationRequest
  RATType                         ratType,
  UserLocationInformation         userLocationInformation optional,
  IMEISV_gtpc                     imeisv_gtpc optional,
- ExtendedCommonFlags             extended_common_flags optional,  
- UserCSGInformation              userCSGInformation optional,   
- PrivateExtension_gtpc_List      private_extension_gtpc optional   
+ ExtendedCommonFlags             extended_common_flags optional,
+ UserCSGInformation              userCSGInformation optional,
+ PrivateExtension_gtpc_List      private_extension_gtpc optional
 };
-  
+
 // MS Info Change Notification Response 7.5B.1.2
 type record MS_InfoChangeNotificationResponse
 {
  Cause_gtpc                      cause,
  IMSI_gtpc                       imsi optional,
  NSAPI_GTPC                      linkedNSAPI optional,
- IMEISV_gtpc                     imeisv_gtpc optional, 
- MS_InfoChangeReportingAction    mS_InfoChangeReportingAction optional, 
- CSGInfoReportingAction          cSGInfoReportingAction optional,  
- PrivateExtension_gtpc_List      private_extension_gtpc optional     
+ IMEISV_gtpc                     imeisv_gtpc optional,
+ MS_InfoChangeReportingAction    mS_InfoChangeReportingAction optional,
+ CSGInfoReportingAction          cSGInfoReportingAction optional,
+ PrivateExtension_gtpc_List      private_extension_gtpc optional
 };
 
 type union GTPC_PDUs {
@@ -3796,13 +3796,13 @@ type union GTPC_PDUs {
  UpdatePDPContextRequest                 updatePDPContextRequest,
  UpdatePDPContextResponse                updatePDPContextResponse,
  DeletePDPContextRequest                 deletePDPContextRequest,
- DeletePDPContextResponse                deletePDPContextResponse, 
+ DeletePDPContextResponse                deletePDPContextResponse,
  PDU_NotificationRequest                 pdu_NotificationRequest,
  PDU_NotificationResponse                pdu_NotificationResponse,
  PDU_NotificationRejectRequest           pdu_NotificationRejectRequest,
  PDU_NotificationRejectResponse          pdu_NotificationRejectResponse,
  InitiatePDPContextActivationRequest     initiatePDPContextActivationRequest,
- InitiatePDPContextActivationResponse    initiatePDPContextActivationResponse, 
+ InitiatePDPContextActivationResponse    initiatePDPContextActivationResponse,
  SupportedExtensionHeadersNotification   supportedExtensionHeadersNotification,
  SendRouteingInformationForGPRSRequest   sendRouteingInformationForGPRSRequest,
  SendRouteingInformationForGPRSResponse  sendRouteingInformationForGPRSResponse,
@@ -3845,9 +3845,9 @@ type union GTPC_PDUs {
  MBMSSessionStopRequest                  mBMSSessionStopRequest,
  MBMSSessionStopResponse_gtpc            mBMSSessionStopResponse,
  MBMSSessionUpdateRequest                mBMSSessionUpdateRequest,
- MBMSSessionUpdateResponse               mBMSSessionUpdateResponse, 
+ MBMSSessionUpdateResponse               mBMSSessionUpdateResponse,
  MS_InfoChangeNotificationRequest        mS_InfoChangeNotificationRequest,
- MS_InfoChangeNotificationResponse       mS_InfoChangeNotificationResponse 
+ MS_InfoChangeNotificationResponse       mS_InfoChangeNotificationResponse
 } with { variant ""};
 
 
@@ -3866,7 +3866,7 @@ type record PDU_GTPC {
  OCT4                           teid,
  GTPC_Header_optional_part      opt_part optional,
  GTPC_PDUs                      gtpc_pdu
-} with { 
+} with {
     variant (lengthf) "LENGTHTO(opt_part, gtpc_pdu)";
     variant (opt_part) "PRESENCE({pn_bit = '1'B, s_bit = '1'B, e_bit = '1'B})";
     variant (gtpc_pdu) "CROSSTAG( echoRequest, messageType = '01'O;
@@ -3877,9 +3877,9 @@ type record PDU_GTPC {
            updatePDPContextRequest, messageType = '12'O;
            updatePDPContextResponse, messageType = '13'O;
            deletePDPContextRequest, messageType = '14'O;
-           deletePDPContextResponse, messageType = '15'O; 
-           initiatePDPContextActivationRequest, messageType = '16'O;           
-           initiatePDPContextActivationResponse, messageType = '17'O;                     
+           deletePDPContextResponse, messageType = '15'O;
+           initiatePDPContextActivationRequest, messageType = '16'O;
+           initiatePDPContextActivationResponse, messageType = '17'O;
            pdu_NotificationRequest, messageType = '1B'O;
            pdu_NotificationResponse, messageType = '1C'O;
            pdu_NotificationRejectRequest, messageType = '1D'O;
@@ -3887,7 +3887,7 @@ type record PDU_GTPC {
            supportedExtensionHeadersNotification, messageType ='1F'O;
            sendRouteingInformationForGPRSRequest, messageType = '20'O;
            sendRouteingInformationForGPRSResponse, messageType = '21'O;
-           failureReportRequest, messageType = '22'O; 
+           failureReportRequest, messageType = '22'O;
            failureReportResponse, messageType = '23'O;
            noteMS_GPRSPresentRequest, messageType = '24'O;
            noteMS_GPRSPresentResponse, messageType = '25'O;
@@ -3898,11 +3898,11 @@ type record PDU_GTPC {
            sgsn_ContextAcknowledge, messageType = '34'O;
            forwardRelocationRequest, messageType = '35'O;
            forwardRelocationResponse, messageType = '36'O;
-           forwardRelocationComplete, messageType = '37'O; 
+           forwardRelocationComplete, messageType = '37'O;
            relocationCancelRequest, messageType = '38'O;
-           relocationCancelResponse, messageType = '39'O; 
-           forwardSRNSContext, messageType = '3A'O; 
-           forwardRelocationCompleteAcknowledge, messageType = '3B'O; 
+           relocationCancelResponse, messageType = '39'O;
+           forwardSRNSContext, messageType = '3A'O;
+           forwardRelocationCompleteAcknowledge, messageType = '3B'O;
            forwardSRNSContextAcknowledge, messageType = '3C'O;
            uERegistrationQueryRequest, messageType = '3D'O;
            uERegistrationQueryResponse, messageType = '3F'O;
@@ -3925,10 +3925,10 @@ type record PDU_GTPC {
            mBMSSessionStartResponse, messageType = '75'O;
            mBMSSessionStopRequest, messageType = '76'O;
            mBMSSessionStopResponse, messageType = '77'O;
-           mBMSSessionUpdateRequest, messageType = '78'O;           
+           mBMSSessionUpdateRequest, messageType = '78'O;
            mBMSSessionUpdateResponse, messageType = '79'O;
            mS_InfoChangeNotificationRequest, messageType = '80'O;
-           mS_InfoChangeNotificationResponse, messageType = '81'O                      
+           mS_InfoChangeNotificationResponse, messageType = '81'O
            )";
 };
 
@@ -3937,12 +3937,12 @@ type record GTPC_Header_optional_part {
  OCT1                       npduNumber,
  OCT1                       nextExtHeader,
  GTPC_ExtensionHeader_List  gTPC_extensionHeader_List optional
-} 
+}
 
 type record of GTPC_ExtensionHeader GTPC_ExtensionHeader_List;
 
 type record GTPC_ExtensionHeader {
- integer               lengthfield, 
+ integer               lengthfield,
  octetstring           content,
  octetstring           nextExtHeader  length(1)
 } with { variant (lengthfield) "LENGTHTO(lengthfield,content,nextExtHeader)";
@@ -3954,4 +3954,3 @@ with {
 extension "version R2A"
 encode "RAW"
 }
-
